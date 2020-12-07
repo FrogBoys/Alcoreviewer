@@ -32,8 +32,11 @@ export class BeverageService implements OnInit{
     return this.http.delete('./api/beverages/'+ id);
   }
 
-  chanageData(data){
+  changeData(data){
+  }
 
+  getsingularData(id){
+    return this.http.get('./api/apkbeverages/' + id);
   }
 
   ngOnInit(): void{

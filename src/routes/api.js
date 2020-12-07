@@ -13,9 +13,7 @@ async function Scrape(id){
     await page.goto('https://www.systembolaget.se/' + id);
     const [el] = await page.$x('/html/body/div[6]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');
     const src = await el.getProperty('src');
-    console.log(src);         
-    const scrTxT = await src.jsonValue();
-        
+    const scrTxT = await src.jsonValue();        
     browser.close();        
     return scrTxT;
 
@@ -40,9 +38,7 @@ router.get('/beverages/:id', (req, res, next) => {
         if(err){
             res.send(err);
         }
-        res.send(beverages.find(x => x.id === req.body.id));
-        console.log(beverages.find(x => x.id === req.body.id));
-        
+        res.send(beverages.find(x => x.id === req.body.id));        
     });
    
 });
@@ -75,10 +71,18 @@ router.delete('/beverages/:id', (req, res, next) => {
             res.send(err);
         }
         res.send(bevs);
-        });
+    });
    
 });
 
+//function to get image from apkapi
+router.get('/apkbeverages/:id', (req, res) => {    
+    Scrape(req.params.id).then(imgurl => {                
+        console.log(imgurl);
+        res.json(imgurl);
+        
+    }).catch(console.log('loading'));    
+});
 
 //call to change beverage
 router.put('/beverage/:id',(req,res) =>{    
@@ -86,7 +90,7 @@ router.put('/beverage/:id',(req,res) =>{
         if(err){
             res.send(err);
         }
-        res
+        
     });
 })
 

@@ -4,6 +4,7 @@ import { Beverage } from '../../models/Beverage';
 import { FormArray, FormArrayName, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BeveragesComponent } from '../beverages/beverages.component';
 import { Subscription } from 'rxjs';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-addform',
@@ -19,9 +20,11 @@ export class AddformComponent implements OnInit{
   addbevForm;
   beverages:BeveragesComponent; 
   subscription: Subscription;
-  APK: any [];
+  beveragelist: any [];
   bev: Beverage;
+  imageurl: any;
   @ViewChild('spinner') spinner: ElementRef;
+  @ViewChild('spinner2') spinner2: ElementRef;
 
   constructor(private bevservice: BeverageService, private formBuilder: FormBuilder, private bevs: BeveragesComponent) { 
     //
@@ -33,12 +36,11 @@ export class AddformComponent implements OnInit{
       type: new FormControl,
       taste: new FormControl,
     });    
-
   }
 
   addBeverage(value){
     document.getElementById('spinner').style.display = 'block';
-    if(value.score > 5){ console.log('jeff'); }
+    if(value.score > 5){ console.log('error'); }
     else{
       var data = value.apk.split(',');     
       this.bev = {
@@ -52,7 +54,6 @@ export class AddformComponent implements OnInit{
         img: null
 
       };
-      console.log(this.bev);      
       this.bevservice.addData(this.bev )
       .subscribe(data =>{
           this.bevs.beverages.push(this.bev);
@@ -61,10 +62,26 @@ export class AddformComponent implements OnInit{
       });
     }
   }
+  setimageURL(value){
+    console.log(value.apk);
+    var id = value.apk.split(',');
+    document.getElementById('spinner2').style.display = 'block';
+    this.bevservice.getsingularData(id[2]).subscribe(response =>{
+      this.imageurl = response;
+      document.getElementById('spinner2').style.display = 'none';
+    });
 
+  }
   ngOnInit(): void {
-    this.bevservice.getAPK().subscribe(data => { this.APK = data; console.log(data);});
+    this.bevservice.getAPK().subscribe(data => { 
+      this.beveragelist = data; 
+      /*this.beveragelist.forEach(element => {
+        element.push()
+      });*/
+    
+    });
     document.getElementById('spinner').style.display = 'none';
+    document.getElementById('spinner2').style.display = 'none';
 
   }
 }
