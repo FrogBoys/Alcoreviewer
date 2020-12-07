@@ -1,0 +1,36 @@
+body{
+    width: 100%;
+    margin: auto;
+}
+
+.bevcontent{
+    width: 50%;
+    margin: auto;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.searchbar{
+    border-radius: 15px;
+    border: solid black 1px;
+    padding: 5px;
+}
+.jumbotron{
+    margin-bottom: 0;
+}
+#links{
+    color: black;
+}
+
+.image{
+    width: 40px;
+}
+.rmbutton{
+    width: 25px;
+    color: transparent;
+    border: transparent;    
+    background-color: transparent;    
+}
+
+.rmimg{
+    width: 25px;
+}
