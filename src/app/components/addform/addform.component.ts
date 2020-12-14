@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BeverageService } from '../../services/beverage.service';
 import { Beverage } from '../../models/Beverage';
-import { FormArray, FormArrayName, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BeveragesComponent } from '../beverages/beverages.component';
 import { Subscription } from 'rxjs';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-addform',
@@ -26,17 +25,7 @@ export class AddformComponent implements OnInit{
   @ViewChild('spinner') spinner: ElementRef;
   @ViewChild('spinner2') spinner2: ElementRef;
 
-  constructor(private bevservice: BeverageService, private formBuilder: FormBuilder, private bevs: BeveragesComponent) { 
-    //
-    this.addbevForm = new FormGroup({
-      apk: new FormControl,
-      score: new FormControl,
-      procentage: new FormControl,
-      price: new FormControl,
-      type: new FormControl,
-      taste: new FormControl,
-    });    
-  }
+  constructor(private bevservice: BeverageService, private formBuilder: FormBuilder, private bevs: BeveragesComponent) {}
 
   addBeverage(value){
     document.getElementById('spinner').style.display = 'block';
@@ -54,7 +43,7 @@ export class AddformComponent implements OnInit{
         img: null
 
       };
-      this.bevservice.addData(this.bev )
+      this.bevservice.addData(this.bev)
       .subscribe(data =>{
           this.bevs.beverages.push(this.bev);
           this.bevservice.dataset = this.bevs.beverages;
@@ -72,13 +61,20 @@ export class AddformComponent implements OnInit{
     });
 
   }
+
+  
   ngOnInit(): void {
+    this.addbevForm = new FormGroup({
+      apk: new FormControl,
+      score: new FormControl,
+      procentage: new FormControl,
+      price: new FormControl,
+      type: new FormControl,
+      taste: new FormControl,
+    });          
+
     this.bevservice.getAPK().subscribe(data => { 
       this.beveragelist = data; 
-      /*this.beveragelist.forEach(element => {
-        element.push()
-      });*/
-    
     });
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('spinner2').style.display = 'none';

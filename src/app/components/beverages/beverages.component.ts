@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { BeverageService } from '../../services/beverage.service';
 import { FilterPipe } from 'src/app/filter.pipe';
 
@@ -14,8 +14,7 @@ export class BeveragesComponent implements OnInit{
   star: any ;
   search: any[];
   filter: FilterPipe;
-  filterdata: any;  
-  
+  filterdata: any;   
 
 
   constructor(private bevService:BeverageService) {
@@ -41,8 +40,8 @@ export class BeveragesComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
   }
+
   removeBeverage(data){
     this.bevService.deleteData(data._id).subscribe(datax =>{
       this.beverages.splice(this.beverages.find(x => x === data));
@@ -50,8 +49,20 @@ export class BeveragesComponent implements OnInit{
     }, err =>{
       console.log(err);
     });
-    //document.location.reload();
   }
+
+  showUpdateform(){
+    document.getElementById('updatebev').style.display = 'block';
+
+  }
+
+  updateBeverage(beverage){
+    this.bevService.changeData(beverage).subscribe(response =>{
+
+    });
+  }
+
+
   counter(i: number) {//add array to loop star icons based on scores take from //https://stackoverflow.com/questions/46805343/angular-how-to-loop-for-numbers
     return new Array(i);
   }

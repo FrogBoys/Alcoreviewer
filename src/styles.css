@@ -20,9 +20,12 @@ body{
 #links{
     color: black;
 }
-
 .image{
     width: 40px;
+}
+.image:hover{
+    display: block;
+    width: 100px;
 }
 .rmbutton{
     width: 25px;
@@ -33,4 +36,8 @@ body{
 
 .rmimg{
     width: 25px;
+}
+
+#updatebev{
+    display: none;
 }

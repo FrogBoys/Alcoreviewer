@@ -1,6 +1,8 @@
 <div>
-  <header class="jumbotron"> 
-    <app-header></app-header>    
+  <header class="jumbotron" style="background-image: url( {{headerimg}} ); height: 200px;" >
+
+    <app-header></app-header>   
+    <a href="{{headerimg}}" target="_blank"><p>Picture brought to you by curtesy of NASA </p> </a>
   </header>
   <nav id="navbar" class="navbar navbar-expand-sm bg-warning navbar-dark">
     <ul class="navbar-nav">
@@ -12,11 +14,16 @@
       </li>      
     </ul>
     <ul class="navbar-nav ml-auto">
-      <input type='text' class="form-control" placeholder="Login id"/>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <div>
+        <form class="form-horizontal" [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)' >
+          <input type='text' class="form-control" placeholder="Password" formControlName='uname'/>
+          <input type='text' class="form-control" placeholder="User name" formControlName='pword'/>
+          <input type='submit' class="btn btn-success" value="log in"/>
+        </form>
+      </div>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
     </ul>
   </nav>  
-  
   <app-addform></app-addform>
   <app-beverages></app-beverages>
 </div>

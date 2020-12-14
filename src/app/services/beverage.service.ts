@@ -29,14 +29,23 @@ export class BeverageService implements OnInit{
   }
 
   deleteData(id){
-    return this.http.delete('./api/beverages/'+ id);
+    return this.http.delete('./api/beverages/'+ id);    
   }
 
   changeData(data){
+    return this.http.put('./api/beverages' + data._id, data);
   }
 
   getsingularData(id){
     return this.http.get('./api/apkbeverages/' + id);
+  }
+
+  getNasaAPI(): any{
+    return this.http.get('https://api.nasa.gov/planetary/apod?api_key=Dqnf5WxdbtyF9i6TwvBsj0XeWtJNhAwdsPsqXR57');
+  }
+
+  tempmethod(data){
+    return this.http.get('./login/login', data)
   }
 
   ngOnInit(): void{

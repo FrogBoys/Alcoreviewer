@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dev": "node app.js",
+    "debug": "nodemon app.js"
   },
   "private": true,
   "dependencies": {
@@ -28,9 +30,11 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "express-validator": "^6.8.0",
     "jquery": "^3.5.1",
     "mongojs": "^3.1.0",
     "mongoose": "^5.10.15",
+    "pbkdf2-password": "^1.2.1",
     "popper.js": "^1.16.1",
     "puppeteer": "^5.5.0",
     "rxjs": "~6.6.0",
@@ -63,5 +67,5 @@
   "license": "ISC",
   "browser": {
     "child_process": false
-  }
+  }  
 }

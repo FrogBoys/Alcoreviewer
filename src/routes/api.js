@@ -1,21 +1,24 @@
-const { async } = require('@angular/core/testing');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongojs');
 const db = mongoose('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.net/Alcoholrevdb?retryWrites=true&w=majority', ['Alcoholrevdb']);
 const pupeteer = require('puppeteer');
-const session = require('express-session');
 
 //fucntion to scrape systembolaget after a specific image
 async function Scrape(id){       
     const browser =  await pupeteer.launch();        
-    const page = await browser.newPage();
-    await page.goto('https://www.systembolaget.se/' + id);
-    const [el] = await page.$x('/html/body/div[6]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');
-    const src = await el.getProperty('src');
-    const scrTxT = await src.jsonValue();        
-    browser.close();        
-    return scrTxT;
+    try{
+        const page = await browser.newPage();
+        await page.goto('https://www.systembolaget.se/' + id);    
+        const [el] = await page.$x('/html/body/div[6]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');
+        const src = await el.getProperty('src');
+        const scrTxT = await src.jsonValue();        
+        browser.close();        
+        return scrTxT;
+    }catch{
+        browser.close();        
+        return '../assets/img/no-img.png';
+    }
 
 }
 
@@ -42,24 +45,28 @@ router.get('/beverages/:id', (req, res, next) => {
     });
    
 });
-
+router.get('/login', function(req, res){    
+    res.send(req.body);
+})
 //call to post beverage to db
 router.post('/beverages/add', (req, res, next) => {    
     var data = req.body;
+    console.log(data)
     if(data === undefined){
         res.json({"error":"no data"})
     }
-    Scrape(data.id).then(imgurl => {
-        data.img = imgurl;   
-        if(data.img != null)                  
-        db.Alcoholrevdb.save(data, function(err, x){
-            if(err){
-               res.send(err);
-            }
-            console.log(data);
-            res.send(data);
-        });
-    }).catch(console.log('loading'));    
+    else{
+        Scrape(data.id).then(imgurl => {
+            data.img = imgurl;   
+            if(data.img != null)                  
+            db.Alcoholrevdb.save(data, function(err, x){
+                if(err){
+                   res.send(err);
+                }
+                res.send(data);
+            });
+        }).catch(console.log('loading'));    
+    }
       
 });
 
@@ -71,6 +78,7 @@ router.delete('/beverages/:id', (req, res, next) => {
             res.send(err);
         }
         res.send(bevs);
+        document.location.reload();
     });
    
 });
