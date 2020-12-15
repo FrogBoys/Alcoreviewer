@@ -23,28 +23,25 @@ app.use(express.static(path.join(__dirname, 'public')));//static folder
 //api call
 app.use('/api', api);
 
-app.use('/login', login)
+app.use('/login', login);
 
 
-app.use(function(req,res, next){
-    var err =  req.session.error;
+app.use(function(req, res, next){
+    var err = req.session.error;
     var msg = req.session.success;
     delete req.session.error;
     delete req.session.success;
     res.locals.message = '';
-    if (err) console.log(err);
-    if (msg) console.log(msg);
-  next();
-})
-
+    if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+    next();
+  });
 //needs to be revisited its causing req.body errors
 app.use(cookieParse());
 app.use(session({
     secret: 'Keybaord cat',
     resave: false,
     saveUninitialized: false,
-    cookie: {secure: true},
-    //maxAge = SIX_MIN
 }));
 
 app.listen(port, () =>{

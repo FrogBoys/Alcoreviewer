@@ -45,7 +45,7 @@ export class BeverageService implements OnInit{
   }
 
   tempmethod(data){
-    return this.http.get('./login/login', data)
+    return this.http.post('./login/login', data)
   }
 
   ngOnInit(): void{

@@ -16,8 +16,8 @@
     <ul class="navbar-nav ml-auto">
       <div>
         <form class="form-horizontal" [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)' >
-          <input type='text' class="form-control" placeholder="Password" formControlName='uname'/>
-          <input type='text' class="form-control" placeholder="User name" formControlName='pword'/>
+          <input type='text' class="form-control" placeholder="User name" formControlName='uname'/>
+          <input type='password' class="form-control" placeholder="Password" formControlName='pword'/>
           <input type='submit' class="btn btn-success" value="log in"/>
         </form>
       </div>

@@ -45,9 +45,6 @@ router.get('/beverages/:id', (req, res, next) => {
     });
    
 });
-router.get('/login', function(req, res){    
-    res.send(req.body);
-})
 //call to post beverage to db
 router.post('/beverages/add', (req, res, next) => {    
     var data = req.body;
