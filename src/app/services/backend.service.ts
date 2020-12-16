@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 
-export class BeverageService implements OnInit{
+export class BackendService implements OnInit{
   dataset: any[];
 
   constructor(private http: HttpClient) { 
@@ -32,8 +32,8 @@ export class BeverageService implements OnInit{
     return this.http.delete('./api/beverages/'+ id);    
   }
 
-  changeData(data){
-    return this.http.put('./api/beverages' + data._id, data);
+  changeData(data, beverageid){
+    return this.http.put('./api/beverage/' + beverageid, data);
   }
 
   getsingularData(id){

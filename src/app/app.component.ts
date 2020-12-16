@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BeverageService } from '../app/services/beverage.service';
+import { BackendService } from './services/backend.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   
   loginForm;
 
-  constructor(private BeverageService: BeverageService){}
+  constructor(private BeverageService: BackendService){}
 
   login(value){
     this.BeverageService.tempmethod(value).subscribe(response =>{

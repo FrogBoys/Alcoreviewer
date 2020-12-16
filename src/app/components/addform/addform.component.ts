@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { BeverageService } from '../../services/beverage.service';
+import { BackendService } from '../../services/backend.service';
 import { Beverage } from '../../models/Beverage';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BeveragesComponent } from '../beverages/beverages.component';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-addform',
   templateUrl: './addform.component.html',
   styleUrls: ['./addform.component.css'],
-  providers: [BeverageService, BeveragesComponent], 
+  providers: [BackendService, BeveragesComponent], 
 
 })
 export class AddformComponent implements OnInit{
@@ -25,7 +25,7 @@ export class AddformComponent implements OnInit{
   @ViewChild('spinner') spinner: ElementRef;
   @ViewChild('spinner2') spinner2: ElementRef;
 
-  constructor(private bevservice: BeverageService, private formBuilder: FormBuilder, private bevs: BeveragesComponent) {}
+  constructor(private bevservice: BackendService, private formBuilder: FormBuilder, private bevs: BeveragesComponent) {}
 
   addBeverage(value){
     document.getElementById('spinner').style.display = 'block';

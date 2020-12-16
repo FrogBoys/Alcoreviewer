@@ -1,8 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongojs');
-const db = mongoose('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.net/Alcoholrevdb?retryWrites=true&w=majority', ['Alcoholrevdb']);
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.net/Alcoholrevdb?retryWrites=true&w=majority',{ useUnifiedTopology: true, useNewUrlParser: true });
+db = mongoose.connection;
 const pupeteer = require('puppeteer');
+const Beverage = require('../app/models/Beverage.js')
+
+db.on('error', console.error.bind(console, 'connection error:'));
+ 
+db.once('open', function() {
+  console.log("Connected to DB");
+}); 
+
 
 //fucntion to scrape systembolaget after a specific image
 async function Scrape(id){       
@@ -25,7 +34,7 @@ async function Scrape(id){
 
 //call to pull all beverages from db
 router.get('/beverages', (req, res, next) => {    
-    db.Alcoholrevdb.find(function(err, beverages){
+    Beverage.find(function(err, beverages){
         if(err){
             res.send(err);
         }                               
@@ -37,40 +46,45 @@ router.get('/beverages', (req, res, next) => {
 
 //call to get 1 drink
 router.get('/beverages/:id', (req, res, next) => {    
-    db.Alcoholrevdb.find(function(err, beverages){      
+    Beverage.find(function(err, beverages){      
         if(err){
             res.send(err);
         }
-        res.send(beverages.find(x => x.id === req.body.id));        
+        var response = undefined;//beverages.find(x => x._id: mongoose.ObjectId(bev)} === req.params.id)
+        res.send(response);        
     });
    
 });
 //call to post beverage to db
 router.post('/beverages/add', (req, res, next) => {    
     var data = req.body;
-    console.log(data)
+    const newbeverage = new Beverage({
+        _id: new mongoose.Types.ObjectId(),
+        id: data.id,
+        name: data.name,
+        procentage: data.procentage,
+        type: data.type,
+        taste: data.taste,
+        score: data.score,
+        price: data.price,
+    });
     if(data === undefined){
         res.json({"error":"no data"})
     }
     else{
         Scrape(data.id).then(imgurl => {
-            data.img = imgurl;   
-            if(data.img != null)                  
-            db.Alcoholrevdb.save(data, function(err, x){
-                if(err){
-                   res.send(err);
-                }
-                res.send(data);
-            });
+            newbeverage.img = imgurl;   
+            if(data.img != null){}
+            newbeverage.save();
         }).catch(console.log('loading'));    
     }
       
 });
 
 //delete call
-router.delete('/beverages/:id', (req, res, next) => {
+router.delete('/beverages/:id', (req, res) => {
     var bev = req.params.id;
-    db.Alcoholrevdb.remove({_id: mongoose.ObjectId(bev)}),(function(err, bevs){
+    Beverage.remove({_id: mongoose.ObjectId(bev)}),(function(err, bevs){
         if(err){
             res.send(err);
         }
@@ -91,12 +105,12 @@ router.get('/apkbeverages/:id', (req, res) => {
 
 //call to change beverage
 router.put('/beverage/:id',(req,res) =>{    
-    db.Alcoholrevdb.change({_id: mongoose.ObjectId(req.params.id)}, (err, beverage)=>{
+    Beverage.updateOne({_id: req.params.id}, { score: req.body.score } ,{upsert: true}, (err)=>{
         if(err){
-            res.send(err);
+            console.log(err);
         }
-        
     });
+    document.location.reload();
 })
 
 module.exports = router;

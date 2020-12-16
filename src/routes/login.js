@@ -4,9 +4,7 @@ const mongoose = require('mongojs');
 const hash = require('pbkdf2-password')();
 const db = mongoose('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.net/Alcoholrevdb?retryWrites=true&w=majority', ['Users']);
 
-var u = {
-    db
-};
+
 /*
 hash({ password: 'jeff' }, function(err, pass, salt, hash) {
     if(err) throw err;
