@@ -13,15 +13,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^11.0.2",
-    "@angular/common": "^11.0.2",
-    "@angular/compiler": "^11.0.2",
-    "@angular/core": "^11.0.2",
-    "@angular/forms": "^11.0.2",
-    "@angular/localize": "^11.0.2",
-    "@angular/platform-browser": "^11.0.2",
-    "@angular/platform-browser-dynamic": "^11.0.2",
-    "@angular/router": "^11.0.2",
+    "@angular/animations": "^11.0.4",
+    "@angular/common": "^11.0.4",
+    "@angular/compiler": "^11.0.4",
+    "@angular/core": "^11.0.4",
+    "@angular/forms": "^11.0.4",
+    "@angular/localize": "^11.0.4",
+    "@angular/platform-browser": "^11.0.4",
+    "@angular/platform-browser-dynamic": "^11.0.4",
+    "@angular/router": "^11.0.4",
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.3",
@@ -33,7 +33,7 @@
     "express-validator": "^6.8.0",
     "jquery": "^3.5.1",
     "mongojs": "^3.1.0",
-    "mongoose": "^5.10.15",
+    "mongoose": "^5.11.8",
     "pbkdf2-password": "^1.2.1",
     "popper.js": "^1.16.1",
     "puppeteer": "^5.5.0",
@@ -42,11 +42,11 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1100.2",
-    "@angular/cli": "^11.0.2",
-    "@angular/compiler-cli": "^11.0.2",
+    "@angular-devkit/build-angular": "^0.1100.4",
+    "@angular/cli": "^11.0.4",
+    "@angular/compiler-cli": "^11.0.4",
     "@types/jasmine": "^3.6.2",
-    "@types/node": "^12.19.6",
+    "@types/node": "^12.19.9",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -67,5 +67,5 @@
   "license": "ISC",
   "browser": {
     "child_process": false
-  }  
+  }
 }

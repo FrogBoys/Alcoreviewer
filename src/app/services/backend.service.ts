@@ -1,5 +1,5 @@
-import { Injectable, OnChanges, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Beverage } from '../models/Beverage';
 import { Observable } from 'rxjs';
 
