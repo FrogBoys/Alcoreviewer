@@ -12,8 +12,6 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded( { extended: true } ));
 const port =  process.env.PORT || 8080;//port
 
-const SIX_MIN = 1000 * 6;
-
 //View engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
