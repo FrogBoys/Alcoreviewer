@@ -7,23 +7,39 @@
   <nav id="navbar" class="navbar navbar-expand-sm bg-warning navbar-dark">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" id='links' href="#">Lista</a>
+        <a class="nav-link" id='links' routerLink='/beverages'>Lista</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id='links' href="#">Apk lista</a>
       </li>      
     </ul>
     <ul class="navbar-nav ml-auto">
-      <div>
-        <form class="form-horizontal" [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)' >
-          <input type='text' class="form-control" placeholder="User name" formControlName='uname'/>
-          <input type='password' class="form-control" placeholder="Password" formControlName='pword'/>
-          <input type='submit' class="btn btn-success" value="log in"/>
-        </form>
+      <h3>{{ username }}</h3>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <form class="form-inline" [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)'>
+              <div id="loginforms" class="form-group">
+                <div class="from-group">
+                  <input type='text' class="form-control" placeholder="Username" formControlName='uname'/>
+                </div>
+                <div class="form-group">
+                  <input type='password' class="form-control" placeholder="Password" formControlName='pword'/>
+                </div>
+                <input type='submit' class="btn btn-success" value="log in" routerLink='/beverages'/>
+                <a routerLink='/signup'>Sign up</a>
+              </div> 
+              <input type='button' class="btn btn-danger" value="log out" id='logoutbtn' routerLink='/beverages'/>
+            </form>
+          </div>
+        </div>
       </div>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+
     </ul>
   </nav>  
-  <app-addform></app-addform>
-  <app-beverages></app-beverages>
 </div>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

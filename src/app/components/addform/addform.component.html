@@ -1,40 +1,39 @@
-<div class="container">
-    <br />
-    <button type="button" class="btn btn-info" data-target='#addform' data-toggle='collapse' (click)="isCollapsed = !isCollapsed">show add form</button> 
-    <br />
-    <div class="spinner-border text-success" id="spinner"></div>     
-
-    <div  id="addform" class="collapse" [ngbCollapse]='isCollapsed'>        
-        <div class="card bg-success">            
-            <div class="input-group-prepend ">
-                <div class="col-xl-12">
-                    <form class="form-horizontal" [formGroup]='addbevForm' (ngSubmit)="addBeverage(addbevForm.value)">
-                        <div class="row">                                            
-                            <div class="col-lg-4">       
-                                <input list="Beverages" placeholder="search bro" class="form-control pull-right" formControlName='apk' required (change)='setimageURL(addbevForm.value)'>                        
-                                <datalist id="Beverages"  placeholder="name" >
-                                    <option *ngFor='let apk of beveragelist' value="{{ apk }}">{{ apk[3] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ apk[6] }}%&nbsp;&nbsp;{{ apk[8] }}:sek&nbsp;volym:{{ apk[7] }}</option>
-                                </datalist>                              
-                            </div>
-                            <div class="col-lg-1">
-                                <div class="spinner-border text-dark" id="spinner2"></div>
-                                <img style="width: 70px;" src='{{ imageurl }}' /> 
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="number" class="form-control" placeholder="points" max="5" min="1" formControlName='score' required/>
-                            </div> 
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="taste" formControlName='taste' required/>
-                            </div> 
-                            <div class="col-lg-1">
-                                <input type="submit" value="Add" class="btn btn-primary" />
-                            </div>                       
-                        </div>    
-
-                    </form>               
+<div id='addforms' class="container">
+        <br />
+        <button type="button" class="btn btn-info" data-target='#addform' data-toggle='collapse' (click)="isCollapsed = !isCollapsed">show add form</button> 
+        <br />
+        <div class="spinner-border text-success" id="spinner"></div>         
+        <div  id="addform" class="collapse" [ngbCollapse]='isCollapsed'>        
+            <div class="card bg-success">            
+                <div class="input-group-prepend ">
+                    <div class="col-xl-12">
+                        <form class="form-horizontal" [formGroup]='addbevForm' (ngSubmit)="addBeverage(addbevForm.value)">
+                            <div class="row">                                            
+                                <div class="col-lg-4">       
+                                    <input list="Beverages" placeholder="search bro" class="form-control pull-right" formControlName='apk' required (change)='setimageURL(addbevForm.value)'>                        
+                                    <datalist id="Beverages"  placeholder="name" >
+                                        <option *ngFor='let apk of beveragelist' value="{{ apk }}">{{ apk[3] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ apk[6] }}%&nbsp;&nbsp;{{ apk[8] }}:sek&nbsp;volym:{{ apk[7] }}</option>
+                                    </datalist>                              
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="spinner-border text-dark" id="spinner2"></div>
+                                    <img style="width: 70px;" src='{{ imageurl }}' /> 
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="number" class="form-control" placeholder="points" max="5" min="1" formControlName='score' required/>
+                                </div> 
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" placeholder="taste" formControlName='taste' required/>
+                                </div> 
+                                <div class="col-lg-1">
+                                    <input type="submit" value="Add" class="btn btn-primary" />
+                                </div>                       
+                            </div>    
+    
+                        </form>               
+                    </div>
                 </div>
             </div>
+            <br />
         </div>
-        <br />
-    </div>
 </div>

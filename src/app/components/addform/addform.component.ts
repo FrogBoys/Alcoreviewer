@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Beverage } from '../../models/Beverage';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { BeveragesComponent } from '../beverages/beverages.component';
 import { Subscription } from 'rxjs';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-addform',
@@ -24,8 +25,12 @@ export class AddformComponent implements OnInit{
   imageurl: any;
   @ViewChild('spinner') spinner: ElementRef;
   @ViewChild('spinner2') spinner2: ElementRef;
+  @ViewChild('addforms') addforms :ElementRef;
+  public addform = document.getElementById('addforms');
 
-  constructor(private bevservice: BackendService, private formBuilder: FormBuilder, private bevs: BeveragesComponent) {}
+  constructor(private bevservice: BackendService, private bevs: BeveragesComponent) {
+    this.addform = document.getElementById('addforms');
+  }
 
   addBeverage(value){
     document.getElementById('spinner').style.display = 'block';
@@ -78,6 +83,7 @@ export class AddformComponent implements OnInit{
     });
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('spinner2').style.display = 'none';
-
+    document.getElementById('addforms').style.display  = 'none';
+    this.addform = document.getElementById('addforms');
   }
 }

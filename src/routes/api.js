@@ -12,6 +12,15 @@ db.once('open', function() {
   console.log("Connected to DB");
 }); 
 
+const AuthUser = (req, res, next) => {
+    if(req.session && req.session.user) {
+      next();
+    } else {
+      res.status(403).send({
+        errorMessage: 'You must be logged in.'
+      });
+    }
+};
 
 //fucntion to scrape systembolaget after a specific image
 async function Scrape(id){       
@@ -24,7 +33,7 @@ async function Scrape(id){
         const scrTxT = await src.jsonValue();        
         browser.close();        
         return scrTxT;
-    }catch{
+    }catch{//incase the url or img iws depricated there is a catch where no-img img is shown instead
         browser.close();        
         return '../assets/img/no-img.png';
     }
@@ -46,17 +55,16 @@ router.get('/beverages', (req, res, next) => {
 
 //call to get 1 drink
 router.get('/beverages/:id', (req, res, next) => {    
-    Beverage.find(function(err, beverages){      
+    Beverage.findOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){      
         if(err){
             res.send(err);
-        }
-        var response = undefined;//beverages.find(x => x._id: mongoose.ObjectId(bev)} === req.params.id)
+        }        
         res.send(response);        
     });
    
 });
 //call to post beverage to db
-router.post('/beverages/add', (req, res, next) => {    
+router.post('/beverages/add', AuthUser, (req, res, next) => {    
     var data = req.body;
     const newbeverage = new Beverage({
         _id: new mongoose.Types.ObjectId(),
@@ -73,7 +81,7 @@ router.post('/beverages/add', (req, res, next) => {
     }
     else{
         Scrape(data.id).then(imgurl => {
-            newbeverage.img = imgurl;   
+            newbeverage.img = imgurl;//this stores the scpared image as thge img object
             if(data.img != null){}
             newbeverage.save();
         }).catch(console.log('loading'));    
@@ -82,15 +90,18 @@ router.post('/beverages/add', (req, res, next) => {
 });
 
 //delete call
-router.delete('/beverages/:id', (req, res) => {
+router.delete('/beverages/:id',AuthUser, (req, res) => {
     var bev = req.params.id;
-    Beverage.remove({_id: mongoose.ObjectId(bev)}),(function(err, bevs){
-        if(err){
-            res.send(err);
-        }
-        res.send(bevs);
-        document.location.reload();
-    });
+    try{       
+        Beverage.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){
+            if(err){
+                res.send(err);
+            }
+            res.send(response);
+        });
+    }catch (err){ 
+        console.log(err);
+    }
    
 });
 
@@ -104,13 +115,13 @@ router.get('/apkbeverages/:id', (req, res) => {
 });
 
 //call to change beverage
-router.put('/beverage/:id',(req,res) =>{    
+router.put('/beverage/:id', AuthUser,(req,res) =>{    
     Beverage.updateOne({_id: req.params.id}, { score: req.body.score } ,{upsert: true}, (err)=>{
         if(err){
             console.log(err);
         }
     });
-    document.location.reload();
 })
+
 
 module.exports = router;

@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { AddformComponent } from './components/addform/addform.component';
 import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     AddformComponent,
     FilterPipe,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

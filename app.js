@@ -13,34 +13,26 @@ app.use(bodyparser.urlencoded( { extended: true } ));
 const port =  process.env.PORT || 8080;//port
 
 //View engine
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));//static folder
 
-//api call
-app.use('/api', api);
-
-app.use('/login', login);
-
-/*
-app.use(function(req, res, next){
-    var err = req.session.error;
-    var msg = req.session.success;
-    delete req.session.error;
-    delete req.session.success;
-    res.locals.message = '';
-    if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
-    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
-    next();
-});*/
-//needs to be revisited its causing req.body errors
-app.use(cookieParse());
 app.use(session({
     secret: 'Keybaord cat',
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 600000 },
 }));
+//routes
+app.use('/api', api);
+app.use('/login', login);
+//redirecting to index
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, './src', '/index.html'));
+});
+
+app.use(cookieParse());
+
 
 app.listen(port, () =>{
     console.log(`Server started at ${port}`);

@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-body">
+        <div class="col-12 justify-content-center">
+            <form  class="form-horizontal" [formGroup]='signinForm' (ngSubmit)="SignUpUser(signinForm.value)">
+                <label>Username</label>
+                <input placeholder="username" class="form-control" formControlName='username'/>
+                <label>Password</label>
+                <input placeholder="password" class="form-control" formControlName='password' type="password"/>
+                <label>Validate password</label>
+                <input placeholder="validate password" class="form-control" formControlName='valpassword' type="password"/>
+                <br/>
+                <input type="submit" class="btn btn-warning" value="Sign up"/>
+            </form>
+        </div>
+    </div>
+</div>

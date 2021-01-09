@@ -7,7 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-beverages',
   templateUrl: './beverages.component.html',
-  styleUrls: ['./beverages.component.css'],
+  styleUrls: ['./beverages.component.css']
 })
 export class BeveragesComponent implements OnInit{
   beverages: any []; 
