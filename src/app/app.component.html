@@ -2,15 +2,15 @@
   <header class="jumbotron" style="background-image: url( {{headerimg}} ); height: 200px;" >
 
     <app-header></app-header>   
-    <a href="{{headerimg}}" target="_blank"><p>Picture brought to you by curtesy of NASA </p> </a>
+    <a href="{{headerimg}}" target="_blank"><p>{{ headertxt }}</p> </a>
   </header>
   <nav id="navbar" class="navbar navbar-expand-sm bg-warning navbar-dark">
     <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="nav-link" id='links' routerLink='/beverages'>Lista</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id='links' href="#">Apk lista</a>
+      <li class="nav-item" *ngIf='loggedIn'>
+        <a class="nav-link" id='links' routerLink='/my-beverages'>Mina drycker</a>
       </li>      
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -20,17 +20,17 @@
         <div class="row">
           <div class="col-md-8">
             <form class="form-inline" [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)'>
-              <div id="loginforms" class="form-group">
+              <div *ngIf='loginforms' class="form-group">
                 <div class="from-group">
                   <input type='text' class="form-control" placeholder="Username" formControlName='uname'/>
                 </div>
                 <div class="form-group">
                   <input type='password' class="form-control" placeholder="Password" formControlName='pword'/>
                 </div>
-                <input type='submit' class="btn btn-success" value="log in" routerLink='/beverages'/>
+                <input type='submit' class="btn btn-success" value="log in" routerLink='/my-beverages'/>
                 <a routerLink='/signup'>Sign up</a>
               </div> 
-              <input type='button' class="btn btn-danger" value="log out" id='logoutbtn' routerLink='/beverages'/>
+              <input type='button' class="btn btn-danger" value="log out" *ngIf='logoutbtn' routerLink='/beverages' (click)='logout()'/>
             </form>
           </div>
         </div>

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { FilterPipe } from 'src/app/filter.pipe';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { AppComponent } from 'src/app/app.component';
+     
 
 @Component({
   selector: 'app-beverages',
@@ -17,16 +18,23 @@ export class BeveragesComponent implements OnInit{
   filter: FilterPipe;
   filterdata: any;   
   updateForm;
+  loggedIn;
 
-
-  constructor(private bevService:BackendService) {
+  constructor(private bevService:BackendService, private app: AppComponent){
     this.bevService.getData().subscribe(data =>{         
       this.filter = this.filterdata;
       this.beverages = data;
     }, err =>{
       console.log(err);
-    });     
+    }); 
+    this.bevService.loggedIn.subscribe(response => {
+      this.loggedIn = response; 
+      this.app.loggedIn = response;
+      this.app.loginforms = !response;
+      this.app.logoutbtn = response;
+    })
   }   
+
   refresh(){
     this.beverages = new Array<any>();
     document.location.reload();
@@ -50,38 +58,9 @@ export class BeveragesComponent implements OnInit{
     }, err =>{
       console.log(err);
     });   
-    
+    this.app.getlogin();
 
   }
-
-  removeBeverage(data){
-    this.bevService.deleteData(data._id).subscribe(datax =>{
-      this.beverages.splice(this.beverages.find(x => x === data));
-      console.log(this.beverages);     
-    }, err =>{
-      console.log(err);
-    });
-  }
-
-  showUpdateform(value){
-    var form = document.getElementById(value.id);
-    document.getElementById(value.name).style.display = 'block';
-    document.getElementById(value.id).style.display = 'block';
-    document.getElementById(value._id).style.display = 'none';
-    if(form.style.display === 'block'){
-      /*document.getElementById(value.name).style.display = 'none';
-      document.getElementById(value.id).style.display = 'none';
-      document.getElementById(value._id).style.display = 'block';*/
-    }
-  }
-  Updateform(beverage){
-    var value = document.getElementById('score' + beverage._id) as HTMLInputElement;
-    let val = {score : parseInt(value.value)};
-    if(val === null) val = beverage.score;
-    this.bevService.changeData(val, beverage._id).subscribe(respone =>{
-
-    });
-  } 
 
   counter(i: number) {//add array to loop star icons based on scores take from //https://stackoverflow.com/questions/46805343/angular-how-to-loop-for-numbers
     return new Array(i);

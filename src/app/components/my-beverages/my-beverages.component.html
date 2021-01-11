@@ -1,3 +1,4 @@
+<app-addform></app-addform>
 <div class="container">
     <form class="col-xl-12">
         <div class="form-group">
@@ -45,6 +46,11 @@
                                 <h4>{{ beverage.price }}:sek</h4>    
                             </td>                   
                             <td>
+                                <div>
+                                    <button id="{{ beverage._id }}" (click)='showUpdateform(beverage)' type="button" class="btn btn-warning">Change information</button>
+                                    <input id="{{ beverage.id }}" type='submit' (click)='Updateform(beverage, beverage.score)' class="btn btn-danger" style="display: none;" value="You're about to update some information">
+                                    <button class="rmbutton" (click)='removeBeverage(beverage)'><img class="rmimg" src="assets/img/remove.png"/></button>                        
+                                </div>
                             </td>
                         </tr>
                 </tbody>

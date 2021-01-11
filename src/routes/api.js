@@ -40,6 +40,14 @@ async function Scrape(id){
 
 }
 
+router.get('/my-beverages/:id', (req, res, next) =>{
+    Beverage.find({ userid: req.params.id }, (err, response) => {
+        if(err){
+            res.send(err);
+        }        
+        res.send(response);   
+    });
+});
 
 //call to pull all beverages from db
 router.get('/beverages', (req, res, next) => {    
@@ -75,6 +83,7 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
         taste: data.taste,
         score: data.score,
         price: data.price,
+        userid: data.userid
     });
     if(data === undefined){
         res.json({"error":"no data"})

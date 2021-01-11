@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Beverage } from '../../models/Beverage';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BeveragesComponent } from '../beverages/beverages.component';
-import { Subscription } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
+
 
 @Component({
   selector: 'app-addform',
@@ -19,21 +19,27 @@ export class AddformComponent implements OnInit{
   data: any;
   addbevForm;
   beverages:BeveragesComponent; 
-  subscription: Subscription;
   beveragelist: any [];
   bev: Beverage;
   imageurl: any;
-  @ViewChild('spinner') spinner: ElementRef;
-  @ViewChild('spinner2') spinner2: ElementRef;
-  @ViewChild('addforms') addforms :ElementRef;
-  public addform = document.getElementById('addforms');
+  loggedIn;
+  userid: string;
+  spinner1: boolean;
+  spinner2: boolean;
 
-  constructor(private bevservice: BackendService, private bevs: BeveragesComponent) {
-    this.addform = document.getElementById('addforms');
+  constructor(private bevService: BackendService, private bevs: BeveragesComponent, private app: AppComponent){
+    this.bevService.loggedIn.subscribe(response =>{
+      this.loggedIn = response;
+      if(response == true){
+        this.bevService.user.subscribe(resp =>{
+          this.userid = resp['_id'];
+        });
+      }
+    });
   }
 
-  addBeverage(value){
-    document.getElementById('spinner').style.display = 'block';
+  addBeverage(value){//adds Beverages to database
+    this.spinner1 = true;
     if(value.score > 5){ console.log('error'); }
     else{
       var data = value.apk.split(',');     
@@ -45,45 +51,42 @@ export class AddformComponent implements OnInit{
         taste: value.taste,
         score: value.score,
         price: parseInt(data[8]),
-        img: null
+        img: null,
+        userid: this.userid
 
       };
-      this.bevservice.addData(this.bev)
+      this.bevService.addData(this.bev)
       .subscribe(data =>{
-          this.bevs.beverages.push(this.bev);
-          this.bevservice.dataset = this.bevs.beverages;
-          this.bevs.refresh();
+        this.bevs.beverages.push(this.bev);
+        this.bevService.dataset = this.bevs.beverages;
+        this.bevs.refresh();
       });
     }
   }
+
   setimageURL(value){
     console.log(value.apk);
     var id = value.apk.split(',');
-    document.getElementById('spinner2').style.display = 'block';
-    this.bevservice.getsingularData(id[2]).subscribe(response =>{
+    this.spinner2 = true;
+    this.bevService.getsingularData(id[2]).subscribe(response =>{
       this.imageurl = response;
-      document.getElementById('spinner2').style.display = 'none';
+      this.spinner2 = false;
     });
 
   }
 
-  
   ngOnInit(): void {
-    this.addbevForm = new FormGroup({
+    this.addbevForm = new FormGroup({ //this creates a new formgoup where data about beverages can be added
       apk: new FormControl,
       score: new FormControl,
       procentage: new FormControl,
       price: new FormControl,
       type: new FormControl,
       taste: new FormControl,
-    });          
+    }); 
+    this.bevService.getAPK().subscribe(data => {this.beveragelist = data;}); //this gets the data in the datalist which is used to add to the database
+    this.spinner1 = false;
+    this.spinner2 = false;
 
-    this.bevservice.getAPK().subscribe(data => { 
-      this.beveragelist = data; 
-    });
-    document.getElementById('spinner').style.display = 'none';
-    document.getElementById('spinner2').style.display = 'none';
-    document.getElementById('addforms').style.display  = 'none';
-    this.addform = document.getElementById('addforms');
   }
 }

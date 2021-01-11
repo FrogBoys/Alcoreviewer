@@ -53,12 +53,13 @@ router.post('/signup', function(req, res){
     });
 });
 
+router.get('/login', (req, res) => {
+    req.session.user ? res.status(200).send({loggedIn:true, user:req.session.user}) : res.status(200).send({loggedIn:false});
+});
 
 router.post('/login', function(req, res){
-    console.log(req.session);
     auth(req.body.uname, req.body.pword, function(err, user){
         if (user != undefined) {       
-
             const userWithoutPassword = user;
             delete userWithoutPassword.password;
             req.session.user = userWithoutPassword;
@@ -76,9 +77,7 @@ router.get('/logout', function(req, res){
     })
 });
 
-router.get('/login', (req, res) => {
-    req.session.user ? res.status(200).send({loggedIn: true}) : res.status(200).send({loggedIn: false});
-});
+
 
 
 router.post('/logout', (req, res) => {

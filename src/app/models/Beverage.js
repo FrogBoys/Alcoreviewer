@@ -10,7 +10,7 @@ const beverage = mongoose.Schema({
     score: Number,
     price: Number,
     img: String,
-   
+    userid: String
 });
 
 module.exports = mongoose.model('beverage', beverage);

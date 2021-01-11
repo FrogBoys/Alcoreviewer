@@ -21,7 +21,7 @@ app.use(session({
     secret: 'Keybaord cat',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 600000 },
+    cookie: { maxAge:  100000 },
 }));
 //routes
 app.use('/api', api);
