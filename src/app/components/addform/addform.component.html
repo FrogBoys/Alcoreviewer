@@ -13,7 +13,7 @@
                                 <div class="col-lg-4">       
                                     <input list="Beverages" placeholder="search bro" class="form-control pull-right" formControlName='apk' required (change)='setimageURL(addbevForm.value)'>                        
                                     <datalist id="Beverages"  placeholder="name" >
-                                        <option *ngFor='let apk of beveragelist' value="{{ apk }}">{{ apk[3] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ apk[6] }}%&nbsp;&nbsp;{{ apk[8] }}:sek&nbsp;volym:{{ apk[7] }}</option>
+                                        <option *ngFor='let apk of beveragelist' [value]='apk'>{{ apk[3] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ apk[6] }}%&nbsp;&nbsp;{{ apk[8] }}:sek&nbsp;volym:{{ apk[7] }}</option>
                                     </datalist>                              
                                 </div>
                                 <div class="col-lg-1">

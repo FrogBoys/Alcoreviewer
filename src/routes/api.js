@@ -24,18 +24,18 @@ const AuthUser = (req, res, next) => {
 
 //fucntion to scrape systembolaget after a specific image
 async function Scrape(id){       
-    const browser =  await pupeteer.launch();        
+    const browser =  await pupeteer.launch();//starts a chromium browser      
     try{
-        const page = await browser.newPage();
-        await page.goto('https://www.systembolaget.se/' + id);    
-        const [el] = await page.$x('/html/body/div[6]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');
-        const src = await el.getProperty('src');
-        const scrTxT = await src.jsonValue();        
-        browser.close();        
-        return scrTxT;
+        const page = await browser.newPage();//opens a pgae
+        await page.goto('https://www.systembolaget.se/' + id);// goes to systembolaget with the specified beverage id
+        const [el] = await page.$x('/html/body/div[6]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');//gets the specific elemetn on the page
+        const src = await el.getProperty('src');// gets the img src
+        const scrTxT = await src.jsonValue();//gets the jsonvalue 
+        browser.close();//closes the browser
+        return scrTxT;//returns img src
     }catch{//incase the url or img iws depricated there is a catch where no-img img is shown instead
         browser.close();        
-        return '../assets/img/no-img.png';
+        return '../assets/img/no-img.png';//standard no-img in assets img folder
     }
 
 }
@@ -74,7 +74,7 @@ router.get('/beverages/:id', (req, res, next) => {
 //call to post beverage to db
 router.post('/beverages/add', AuthUser, (req, res, next) => {    
     var data = req.body;
-    const newbeverage = new Beverage({
+    const newbeverage = new Beverage({ // creates a new beverage object from req.body
         _id: new mongoose.Types.ObjectId(),
         id: data.id,
         name: data.name,
@@ -83,17 +83,21 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
         taste: data.taste,
         score: data.score,
         price: data.price,
-        userid: data.userid
+        username: data.username,
+        userid: data.userid,
+        img: data.img
     });
     if(data === undefined){
         res.json({"error":"no data"})
     }
-    else{
+    else if(newbeverage.img == null || newbeverage.img == undefined){
         Scrape(data.id).then(imgurl => {
             newbeverage.img = imgurl;//this stores the scpared image as thge img object
-            if(data.img != null){}
             newbeverage.save();
         }).catch(console.log('loading'));    
+    }
+    else{
+        newbeverage.save();
     }
       
 });
@@ -124,7 +128,7 @@ router.get('/apkbeverages/:id', (req, res) => {
 });
 
 //call to change beverage
-router.put('/beverage/:id', AuthUser,(req,res) =>{    
+router.put('/beverage/:id', AuthUser,(req,res) =>{// AuthUser to make sure it is the correct user
     Beverage.updateOne({_id: req.params.id}, { score: req.body.score } ,{upsert: true}, (err)=>{
         if(err){
             console.log(err);

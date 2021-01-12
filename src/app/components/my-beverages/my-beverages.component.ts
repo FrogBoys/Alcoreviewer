@@ -23,29 +23,7 @@ export class MyBeveragesComponent implements OnInit {
   usertype: string;
   userid: string;
 
-  constructor(private bevService:BackendService, private app: AppComponent){
-
-    this.updateForm = new FormGroup({           
-      score: new FormControl,      
-    });   
-    if(this.app.user['_id'] == 'admin'){
-      this.bevService.getData().subscribe(data =>{         
-      this.filter = this.filterdata;
-      this.beverages = data;
-      },err =>{
-        console.log(err);
-      });         
-      }
-    else{
-      this.userid = this.app.user['_id'];
-      this.bevService.getmyData(this.userid).subscribe(data =>{         
-      this.filter = this.filterdata;
-      this.beverages = data;
-      }, err =>{
-      console.log(err);
-      });         
-    }
-    
+  constructor(private bevService:BackendService, private app: AppComponent){      
     //this.bevService.loggedIn.subscribe(response => {this.loggedIn = response;})
   }   
 
@@ -62,7 +40,26 @@ export class MyBeveragesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.updateForm = new FormGroup({           
+      score: new FormControl,      
+    });   
+    if(this.app.user['usertype'] == 'admin'){
+      this.bevService.getData().subscribe(data =>{         
+      this.filter = this.filterdata;
+      this.beverages = data;
+      },err =>{
+        console.log(err);
+      });         
+      }
+    else{
+      this.userid = this.app.user['_id'];
+      this.bevService.getmyData(this.userid).subscribe(data =>{         
+      this.filter = this.filterdata;
+      this.beverages = data;
+      }, err =>{
+      console.log(err);
+      });         
+    }
 
   }
 

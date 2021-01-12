@@ -7,5 +7,7 @@ export class Beverage{
     score: number;
     price: number;
     img: string;
+    username: String;
     userid: String;
+
 }

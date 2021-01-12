@@ -1,7 +1,7 @@
 <div class="container">
     <form class="col-xl-12">
         <div class="form-group">
-            <input type="text" class="form-control" list="bevlist" placeholder="Search for beverages" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">            
+            <input type="text" class="form-control" list="bevlist" placeholder="Sök på drycker" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">            
         </div>
     </form>        
     <div class="row">
@@ -11,6 +11,7 @@
                     <tr>
                         <td></td>
                         <td>Namn</td>
+                        <td>Användare</td>
                         <td>Sort</td>
                         <td>Procent</td>
                         <td>Smak</td>
@@ -32,6 +33,9 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                <h4>{{ beverage.username }}</h4>    
+                            </td> 
                             <td>
                                 <h4>{{ beverage.type }}</h4>    
                             </td>                    

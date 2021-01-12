@@ -22,17 +22,6 @@ function auth(uname, pword, fn){
     });    
 }
 
-function restrict(req, res, next){
-    if(req.session.user){
-        next();
-    }
-    else{
-        req.session.error = 'Access denied'
-        res.redirect('/login');
-    }
-}
-
-
 router.post('/signup', function(req, res){
     auth(req.body.username, req.body.password, function(err, user){
         if (user === undefined){            
@@ -71,10 +60,14 @@ router.post('/login', function(req, res){
     })
 })
 
-router.get('/logout', function(req, res){
-    req.session.destroy(function(){
-        res.redirect('/');
-    })
+router.post('/logout', function(req, res){
+    req.session.destroy((err) => {
+        if (err) {
+          res.status(500).send('Log out function not working');
+        } else {
+          res.status(200).send({});
+        }
+    });
 });
 
 

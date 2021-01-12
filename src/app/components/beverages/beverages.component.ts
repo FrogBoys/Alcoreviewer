@@ -32,6 +32,9 @@ export class BeveragesComponent implements OnInit{
       this.app.loggedIn = response;
       this.app.loginforms = !response;
       this.app.logoutbtn = response;
+      if(response == false){
+        this.app.username = undefined;
+      }
     })
   }   
 

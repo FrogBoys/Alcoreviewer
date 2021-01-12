@@ -1,8 +1,5 @@
 export class User{
-    username: {
-        type:string
-        unique: true
-    }
+    username:string;
     password: {
         type:string
         required: true

@@ -27,7 +27,7 @@
                 <div class="form-group">
                   <input type='password' class="form-control" placeholder="Password" formControlName='pword'/>
                 </div>
-                <input type='submit' class="btn btn-success" value="log in" routerLink='/my-beverages'/>
+                <input type='submit' class="btn btn-success" value="log in"/>
                 <a routerLink='/signup'>Sign up</a>
               </div> 
               <input type='button' class="btn btn-danger" value="log out" *ngIf='logoutbtn' routerLink='/beverages' (click)='logout()'/>

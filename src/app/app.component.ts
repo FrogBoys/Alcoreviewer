@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
     uname:  new FormControl(),
     pword: new FormControl()
     }); 
-    //this.getlogin();
   }
 
   login(value){
@@ -34,12 +33,21 @@ export class AppComponent implements OnInit {
       this.loginforms = false;
       this.logoutbtn = true;      
       this.loggedIn = true;
+      this.bevService.loggedIn.next(true);
     });
+    this.getlogin();
   }
 
   logout(){
     this.bevService.logout();
-  }
+    this.bevService.loggedIn.subscribe(response => { 
+      this.loggedIn = response;
+      this.loginforms = !response;
+      this.logoutbtn = response;      
+      if(response == true){
+        this.bevService.user.subscribe(resp =>{this.user = resp; this.username = resp['username'];});
+      }
+    });    }
 
   getlogin(){
     this.bevService.loggedIn.subscribe(response => { 
@@ -53,7 +61,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.logoutbtn = false;      
     this.bevService.getNasaAPI().subscribe(response =>{
       this.headerimg = response.hdurl;
       this.headertxt =  'Picture brought to you by curtesy of NASA'
@@ -62,8 +69,8 @@ export class AppComponent implements OnInit {
         this.headerimg = 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fd3ao8sz5crj5i0.cloudfront.net%2F005_hubble-crab-nebula.jpg&f=1&nofb=1';
         this.headertxt = 'Due NASA providing a video this is the picture you get' //fun way to tell the user that the NASA api dint' return a picture
       }
-    });   
-    //this.getlogin();
+    });
+    this.getlogin();
   } 
 
 }
