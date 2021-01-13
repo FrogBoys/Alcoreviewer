@@ -11,6 +11,14 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded( { extended: true } ));
 const port =  process.env.PORT || 8080;//port
 
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type");
+    res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
+    next();
+});
+
 //View engine
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
