@@ -11,7 +11,6 @@ import { BackendService } from 'src/app/services/backend.service';
   providers: [BackendService]
 })
 export class MyBeveragesComponent implements OnInit {
-
   beverages: any []; 
   bev:any [];
   star: any ;
@@ -22,18 +21,24 @@ export class MyBeveragesComponent implements OnInit {
   loggedIn;
   usertype: string;
   userid: string;
+  adminmode;
+  mostdrunk: any;
+  usermode;
 
-  constructor(private bevService:BackendService, private app: AppComponent){      
-    //this.bevService.loggedIn.subscribe(response => {this.loggedIn = response;})
+  constructor(private Service:BackendService, private app: AppComponent){      
+    this.Service.loggedIn.subscribe(response => {
+      this.app.loggedIn = response;
+      this.app.loginforms = !response;
+      this.app.logoutbtn = response;   
+    });
   }   
 
   refresh(){
     this.beverages = new Array<any>();
-    document.location.reload();
-    this.bevService.getData().subscribe(data =>{         
+    this.Service.getData().subscribe(data =>{         
       this.filter = this.filterdata;
       this.beverages = data;  
-      this.beverages = this.bevService.dataset;  
+      this.beverages = this.Service.dataset;  
     }, err =>{
       console.log(err);
     });
@@ -44,18 +49,28 @@ export class MyBeveragesComponent implements OnInit {
       score: new FormControl,      
     });   
     if(this.app.user['usertype'] == 'admin'){
-      this.bevService.getData().subscribe(data =>{         
+      this.Service.getData().subscribe(data =>{         
       this.filter = this.filterdata;
       this.beverages = data;
+      this.adminmode = true;
       },err =>{
         console.log(err);
       });         
-      }
+    }
     else{
       this.userid = this.app.user['_id'];
-      this.bevService.getmyData(this.userid).subscribe(data =>{         
-      this.filter = this.filterdata;
-      this.beverages = data;
+      this.usermode = true;
+      this.Service.getmyData(this.userid).subscribe(data =>{         
+        this.filter = this.filterdata;
+        this.beverages = data;
+        if(data != undefined){
+          let max = 0;
+          data.forEach(element => {
+            if(element.timesdrunk > max){
+              this.mostdrunk = element;
+            }
+          });
+        }
       }, err =>{
       console.log(err);
       });         
@@ -64,9 +79,8 @@ export class MyBeveragesComponent implements OnInit {
   }
 
   removeBeverage(data){
-    this.bevService.deleteData(data._id).subscribe(datax =>{
+    this.Service.removeData(data._id).subscribe(datax =>{
       this.beverages.splice(this.beverages.find(x => x === data));
-      console.log(this.beverages);     
     }, err =>{
       console.log(err);
     });
@@ -88,15 +102,11 @@ export class MyBeveragesComponent implements OnInit {
     var value = document.getElementById('score' + beverage._id) as HTMLInputElement;
     let val = {score : parseInt(value.value)};
     if(val === null) val = beverage.score;
-    this.bevService.changeData(val, beverage._id).subscribe(respone =>{ });
+    this.Service.changeData(val, beverage._id).subscribe(respone =>{ });
   } 
 
   counter(i: number) {//add array to loop star icons based on scores take from //https://stackoverflow.com/questions/46805343/angular-how-to-loop-for-numbers
     return new Array(i);
   }
-
-  counterbstars(i: number) {//add array to loop star icons based on scores take from //https://stackoverflow.com/questions/46805343/angular-how-to-loop-for-numbers
-    return new Array(i);
-  }  
 }
 

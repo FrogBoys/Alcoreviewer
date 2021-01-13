@@ -31,7 +31,8 @@ router.post('/signup', function(req, res){
                     _id: new mongoose.Types.ObjectId(),
                     hash: hash,
                     salt: salt,
-                    username: req.body.username 
+                    username: req.body.username,
+                    usertype: req.body.usertype
                 });
                 newuser.save();
             });

@@ -1,7 +1,7 @@
 <br />
 <div id='addforms' class="container" *ngIf='loggedIn' >
         <br />
-        <button type="button" class="btn btn-info" data-target='#addform' data-toggle='collapse' (click)="isCollapsed = !isCollapsed">show add form</button> 
+        <button type="button" class="btn btn-info" data-target='#addform' data-toggle='collapse' (click)="isCollapsed = !isCollapsed">Lägg till</button> 
         <br />
         <div class="spinner-border text-success" id="spinner" *ngIf='spinner1'></div>         
         <div  id="addform" class="collapse" [ngbCollapse]='isCollapsed'>        
@@ -11,7 +11,7 @@
                         <form class="form-horizontal"  [formGroup]='addbevForm' (ngSubmit)="addBeverage(addbevForm.value)">
                             <div class="row">                                            
                                 <div class="col-lg-4">       
-                                    <input list="Beverages" placeholder="search bro" class="form-control pull-right" formControlName='apk' required (change)='setimageURL(addbevForm.value)'>                        
+                                    <input list="Beverages" placeholder="search bro" class="form-control pull-right" formControlName='apk' (change)='setimageURL(addbevForm.value)'>                        
                                     <datalist id="Beverages"  placeholder="name" >
                                         <option *ngFor='let apk of beveragelist' [value]='apk'>{{ apk[3] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ apk[6] }}%&nbsp;&nbsp;{{ apk[8] }}:sek&nbsp;volym:{{ apk[7] }}</option>
                                     </datalist>                              

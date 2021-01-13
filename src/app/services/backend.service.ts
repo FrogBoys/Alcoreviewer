@@ -29,7 +29,7 @@ export class BackendService implements OnInit{
     this.http.post('./api/beverages/add',data).subscribe(async (response) => {return await response});
   }
 
-  deleteData(id){return this.http.delete('./api/beverages/'+ id);}
+  removeData(id){return this.http.delete('./api/beverages/'+ id);}
 
   changeData(data, beverageid){return this.http.put('./api/beverage/' + beverageid, data);}
 
@@ -48,8 +48,9 @@ export class BackendService implements OnInit{
   //check is the user is still active call
   checkUser(){     
     this.http.get('./login/login', {withCredentials: true}).subscribe((response: any) =>{
-      this.loggedIn.next(response['loggedIn']); 
-      this.user.next(response['user']);
+      this.loggedIn.next(response['loggedIn']);
+      if(response['loggedIn'] == false){this.user.next(undefined);}
+      else{this.user.next(response['user']);}      
     });
   }
   //logout call
@@ -61,6 +62,13 @@ export class BackendService implements OnInit{
     return this.http.post('./login/signup', data)
   }
   
+  getUsers():Observable <User[]>{
+    return this.http.get<User[]>('/api/getusers');
+  }
+
+  removeUser(id){
+    return this.http.delete('./api/deluser/'+ id);
+  }
   ngOnInit(): void{
 
   }

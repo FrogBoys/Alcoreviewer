@@ -3,7 +3,7 @@
         <div class="form-group">
             <input type="text" class="form-control" list="bevlist" placeholder="Sök på drycker" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">            
         </div>
-    </form>        
+    </form>    
     <div class="row">
         <form class="col-xl-12" >
             <table class="table table-dark">
@@ -12,16 +12,17 @@
                         <td></td>
                         <td>Namn</td>
                         <td>Användare</td>
-                        <td>Sort</td>
+                        <td>Sort & subsort</td>
                         <td>Procent</td>
                         <td>Smak</td>
                         <td>Pris</td>
+                        <td>APK</td>
                     </tr>
                 </thead>
                 <tbody>                                                    
                         <tr *ngFor='let beverage of beverages | filter : search' >
                             <td>
-                                <img class='image' src="{{ beverage.img }}"/>
+                                <a href="{{ beverage.link }}"><img class='image' src="{{ beverage.img }}"/></a>
                             </td>
                             <td>
                                 <h4>{{ beverage.name }}</h4>   
@@ -37,7 +38,7 @@
                                 <h4>{{ beverage.username }}</h4>    
                             </td> 
                             <td>
-                                <h4>{{ beverage.type }}</h4>    
+                                <h4>{{ beverage.type.typename }}   {{ beverage.type.subtype }}</h4>    
                             </td>                    
                             <td>
                                 <h4>{{ beverage.procentage }}%</h4>    
@@ -47,7 +48,9 @@
                             </td>
                             <td>
                                 <h4>{{ beverage.price }}:sek</h4>    
-                            </td>                   
+                            </td><td>
+                                <h4>{{ beverage.apk }}</h4>    
+                            </td>                    
                             <td>
                             </td>
                         </tr>

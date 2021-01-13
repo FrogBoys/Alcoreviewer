@@ -11,6 +11,7 @@ import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './components/signup/signup.component';
 import { MyBeveragesComponent } from './components/my-beverages/my-beverages.component';
+import { AdminToolsComponent } from './components/admin-tools/admin-tools.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MyBeveragesComponent } from './components/my-beverages/my-beverages.com
     FilterPipe,
     SignupComponent,
     MyBeveragesComponent,
+    AdminToolsComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ mongoose.connect('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.
 db = mongoose.connection;
 const pupeteer = require('puppeteer');
 const Beverage = require('../app/models/Beverage.js')
+const Users = require('../app/models/User.js')
 
 db.on('error', console.error.bind(console, 'connection error:'));
  
@@ -28,7 +29,7 @@ async function Scrape(id){
     try{
         const page = await browser.newPage();//opens a pgae
         await page.goto('https://www.systembolaget.se/' + id);// goes to systembolaget with the specified beverage id
-        const [el] = await page.$x('/html/body/div[6]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');//gets the specific elemetn on the page
+        const [el] = await page.$x('/html/body/div[5]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');//gets the specific elemetn on the page 
         const src = await el.getProperty('src');// gets the img src
         const scrTxT = await src.jsonValue();//gets the jsonvalue 
         browser.close();//closes the browser
@@ -39,7 +40,7 @@ async function Scrape(id){
     }
 
 }
-
+//get my-beverage with specific id
 router.get('/my-beverages/:id', (req, res, next) =>{
     Beverage.find({ userid: req.params.id }, (err, response) => {
         if(err){
@@ -79,13 +80,19 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
         id: data.id,
         name: data.name,
         procentage: data.procentage,
-        type: data.type,
+        type: {
+            typename: data.type.typename,
+            subtype: data.type.subtype,
+        },
         taste: data.taste,
         score: data.score,
         price: data.price,
+        apk: data.apk,
+        link: data.link,
         username: data.username,
         userid: data.userid,
-        img: data.img
+        img: data.img,
+        timesdrunk: data.timesdrunk,
     });
     if(data === undefined){
         res.json({"error":"no data"})
@@ -104,7 +111,6 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
 
 //delete call
 router.delete('/beverages/:id',AuthUser, (req, res) => {
-    var bev = req.params.id;
     try{       
         Beverage.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){
             if(err){
@@ -116,7 +122,7 @@ router.delete('/beverages/:id',AuthUser, (req, res) => {
         console.log(err);
     }
    
-});
+}); 
 
 //function to get image from apkapi
 router.get('/apkbeverages/:id', (req, res) => {    
@@ -136,5 +142,27 @@ router.put('/beverage/:id', AuthUser,(req,res) =>{// AuthUser to make sure it is
     });
 })
 
+router.get('/getusers', (req, res, next) =>{
+    Users.find((err, response) => {
+        if(err){
+            res.send(err);
+        }        
+        res.send(response);   
+    });
+});
+
+router.delete('/deluser/:id',AuthUser, (req, res) => {
+    try{       
+        Users.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){
+            if(err){
+                res.send(err);
+            }
+            res.send(response);
+        });
+    }catch (err){ 
+        console.log(err);
+    }
+   
+});
 
 module.exports = router;

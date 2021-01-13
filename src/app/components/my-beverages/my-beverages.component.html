@@ -1,10 +1,19 @@
+<div class="row" *ngIf='usermode'>
+    <div class="col-xl-12" align="center">
+        <h2>Favorit</h2>
+        <h3>{{ this.mostdrunk.name }}</h3>
+        <img src="{{ this.mostdrunk.img }}" class="image"/>      
+        
+    </div>
+</div>
 <app-addform></app-addform>
+<app-admin-tools *ngIf='adminmode'></app-admin-tools>
 <div class="container">
     <form class="col-xl-12">
         <div class="form-group">
             <input type="text" class="form-control" list="bevlist" placeholder="Sök på drycker" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">            
         </div>
-    </form>        
+    </form>          
     <div class="row">
         <form class="col-xl-12" >
             <table class="table table-dark">
@@ -12,6 +21,7 @@
                     <tr>
                         <td></td>
                         <td>Namn</td>
+                        <td *ngIf='adminmode'>Användare</td>
                         <td>Sort</td>
                         <td>Procent</td>
                         <td>Smak</td>
@@ -33,8 +43,11 @@
                                     </div>
                                 </div>
                             </td>
+                            <td *ngIf='adminmode'>
+                                <h4>{{ beverage.username }}</h4>    
+                            </td> 
                             <td>
-                                <h4>{{ beverage.type }}</h4>    
+                                <h4>{{ beverage.type.typename }}  {{ beverage.type.subtype }}</h4>    
                             </td>                    
                             <td>
                                 <h4>{{ beverage.procentage }}%</h4>    

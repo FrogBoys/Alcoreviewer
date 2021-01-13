@@ -5,13 +5,19 @@ const beverage = mongoose.Schema({
     id: Number,
     name: String,
     procentage: Number,
-    type: String,
+    type:{
+        typename: String,
+        subtype: String
+    },
     taste: String,
     score: Number,
     price: Number,
+    apk: String,
     img: String,
+    link: String,
     username: String,
     userid: String,
+    timesdrunk: Number,
 });
 
 module.exports = mongoose.model('beverage', beverage);

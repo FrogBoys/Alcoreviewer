@@ -8,7 +8,8 @@ import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-beverages',
   templateUrl: './beverages.component.html',
-  styleUrls: ['./beverages.component.css']
+  styleUrls: ['./beverages.component.css'],
+  providers: [BackendService]
 })
 export class BeveragesComponent implements OnInit{
   beverages: any []; 
@@ -20,31 +21,25 @@ export class BeveragesComponent implements OnInit{
   updateForm;
   loggedIn;
 
-  constructor(private bevService:BackendService, private app: AppComponent){
-    this.bevService.getData().subscribe(data =>{         
-      this.filter = this.filterdata;
-      this.beverages = data;
-    }, err =>{
-      console.log(err);
-    }); 
-    this.bevService.loggedIn.subscribe(response => {
+  constructor(private Service:BackendService, private app: AppComponent){   
+    this.Service.loggedIn.subscribe(response =>{
       this.loggedIn = response; 
       this.app.loggedIn = response;
       this.app.loginforms = !response;
       this.app.logoutbtn = response;
       if(response == false){
-        this.app.username = undefined;
+        this.app.user = undefined;
       }
-    })
+    });
   }   
 
   refresh(){
     this.beverages = new Array<any>();
     document.location.reload();
-    this.bevService.getData().subscribe(data =>{         
+    this.Service.getData().subscribe(data =>{         
       this.filter = this.filterdata;
       this.beverages = data;  
-      this.beverages = this.bevService.dataset;  
+      this.beverages = this.Service.dataset;  
     }, err =>{
       console.log(err);
     });
@@ -55,22 +50,17 @@ export class BeveragesComponent implements OnInit{
       score: new FormControl,      
     });   
 
-    this.bevService.getData().subscribe(data =>{         
+    this.Service.getData().subscribe(data =>{         
       this.filter = this.filterdata;
       this.beverages = data;
     }, err =>{
       console.log(err);
     });   
     this.app.getlogin();
-
   }
 
   counter(i: number) {//add array to loop star icons based on scores take from //https://stackoverflow.com/questions/46805343/angular-how-to-loop-for-numbers
     return new Array(i);
-  }
-
-  counterbstars(i: number) {//add array to loop star icons based on scores take from //https://stackoverflow.com/questions/46805343/angular-how-to-loop-for-numbers
-    return new Array(i);
-  }  
+  } 
 }
 

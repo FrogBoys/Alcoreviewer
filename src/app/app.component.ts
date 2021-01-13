@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from './services/backend.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: []
+  providers: [BackendService]
 })
 export class AppComponent implements OnInit {
   title = 'AlcoRev';  
@@ -18,12 +18,13 @@ export class AppComponent implements OnInit {
   logoutbtn:boolean;
   loggedIn: boolean;
   headertxt;
-
+  secondroutertxt;
   constructor(private bevService: BackendService){
     this.loginForm = new FormGroup({
-    uname:  new FormControl(),
-    pword: new FormControl()
+      uname:  new FormControl(),
+      pword: new FormControl()
     }); 
+    this.getlogin();
   }
 
   login(value){
@@ -34,8 +35,13 @@ export class AppComponent implements OnInit {
       this.logoutbtn = true;      
       this.loggedIn = true;
       this.bevService.loggedIn.next(true);
+      if(response['usertype'] == 'admin'){
+        this.secondroutertxt = 'Administrera';
+      }
+      else{
+        this.secondroutertxt = 'Mina drycker'
+      }
     });
-    this.getlogin();
   }
 
   logout(){
@@ -47,7 +53,9 @@ export class AppComponent implements OnInit {
       if(response == true){
         this.bevService.user.subscribe(resp =>{this.user = resp; this.username = resp['username'];});
       }
-    });    }
+      else{this.username = undefined;}
+    });    
+  }
 
   getlogin(){
     this.bevService.loggedIn.subscribe(response => { 
@@ -55,7 +63,19 @@ export class AppComponent implements OnInit {
       this.loginforms = !response;
       this.logoutbtn = response;      
       if(response == true){
-        this.bevService.user.subscribe(resp =>{this.user = resp; this.username = resp['username'];});
+        this.bevService.user.subscribe(resp =>{
+          this.user = resp; 
+          this.username = resp['username'];
+          if(resp['usertype'] == 'admin'){
+            this.secondroutertxt = 'Administrera';
+          }
+          else{
+            this.secondroutertxt = 'Mina drycker'
+          }          
+        });
+      }
+      else{
+        this.username = undefined;
       }
     });  
   }
@@ -70,7 +90,7 @@ export class AppComponent implements OnInit {
         this.headertxt = 'Due NASA providing a video this is the picture you get' //fun way to tell the user that the NASA api dint' return a picture
       }
     });
-    this.getlogin();
+    //this.getlogin();
   } 
 
 }

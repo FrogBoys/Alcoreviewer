@@ -2,12 +2,17 @@ export class Beverage{
     id: number;
     name: string;
     procentage: number;
-    type: string;
+    type: {
+        typename: string;
+        subtype: string;
+    };
     taste: string;
     score: number;
     price: number;
+    apk: string;
     img: string;
-    username: String;
-    userid: String;
-
+    link: string;
+    username: string;
+    userid: string;
+    timesdrunk: number;
 }
