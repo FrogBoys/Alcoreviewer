@@ -6,11 +6,14 @@ const login = require('./src/routes/login');
 const session = require('express-session');
 const cookieParse = require('cookie-parser');
 //body parser
+let Queue = require('bull');
+
 const app = express();
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded( { extended: true } ));
 const port =  process.env.PORT || 8080;//port
-
+let REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+let workQueue = new Queue('work', REDIS_URL);
 app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", "true");
