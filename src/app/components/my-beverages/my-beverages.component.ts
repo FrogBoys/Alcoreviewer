@@ -33,8 +33,8 @@ export class MyBeveragesComponent implements OnInit {
     });   
     if(this.app.user['usertype'] == 'admin'){//this determines if admintools are seen
       this.Service.getData().subscribe(data =>{//this gets all the beverages in the db 
-      this.filter = this.filterdata;
-      this.beverages = data;
+      this.filter = this.filterdata;//sets what the filter will be filtering
+      this.beverages = data;//sets the local list presented
       this.adminmode = true;//this shows the Admin-Tools Ccomponent
       },err =>{//error handling
         console.log(err);
@@ -42,9 +42,9 @@ export class MyBeveragesComponent implements OnInit {
     }
     else{
       this.userid = this.app.user['_id'];
-      this.Service.getmyData(this.userid).subscribe(data =>{// this gets only the suers beverages in the db
-        this.filter = this.filterdata;
-        this.beverages = data;
+      this.Service.getmyData(this.userid).subscribe(data =>{// this gets only the specific users beverages in the db
+        this.filter = this.filterdata;//sets what the filter will be filtering
+        this.beverages = data;;//sets the local list presented
         if(data.length != 0){//if the users beverages are less than 1 a most drunk visual indicator is hidden 
           this.usermode = true;//visual indicator is shown
           let max = 0;
@@ -78,9 +78,9 @@ export class MyBeveragesComponent implements OnInit {
     document.getElementById(value._id).style.display = 'none';
   }
 
-  Updateform(beverage){//
+  Updateform(beverage){//method to update score values depending on a slider
     var value = document.getElementById('score' + beverage._id) as HTMLInputElement;// this gets the value from the slider which changed the score
-    let val = {score : parseInt(value.value)};
+    let val = {score : parseInt(value.value)};//creates an object from slider value to later send to the Service
     if(val === null) val = beverage.score;
     this.Service.changeData(val, beverage._id).subscribe(respone =>{ });//Service call to update db data
   } 

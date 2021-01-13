@@ -48,7 +48,7 @@ export class BackendService implements OnInit{
     return this.http.get('./api/apkbeverages/' + id);
   }
 
-  //NASA API to get image/video of the day 
+  //NASA API to get image/video of the day this was implemented incase the APK API wasn't sufficent to get a passing grade
   getNasaAPI(): any{
     return this.http.get('https://api.nasa.gov/planetary/apod?api_key=Dqnf5WxdbtyF9i6TwvBsj0XeWtJNhAwdsPsqXR57'); 
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Beverage } from '../../models/Beverage';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { BeveragesComponent } from '../beverages/beverages.component';
 import { MyBeveragesComponent } from '../my-beverages/my-beverages.component';
 

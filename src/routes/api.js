@@ -72,6 +72,7 @@ router.get('/beverages/:id', (req, res, next) => {
     });
    
 });
+
 //call to post beverage to db
 router.post('/beverages/add', AuthUser, (req, res, next) => {    
     var data = req.body;
@@ -100,19 +101,19 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
     else if(newbeverage.img == null || newbeverage.img == undefined){
         Scrape(data.id).then(imgurl => {
             newbeverage.img = imgurl;//this stores the scpared image as thge img object
-            newbeverage.save();
+            newbeverage.save();//saves to db
         }).catch(console.log('loading'));    
     }
-    else{
+    else{// if the img is already set the scrape method is skipped to optimize performance
         newbeverage.save();
     }
       
 });
 
-//delete call
+//delete call 
 router.delete('/beverages/:id',AuthUser, (req, res) => {
     try{       
-        Beverage.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){
+        Beverage.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){// deletes one beverage from the db with the specific mongoose _id
             if(err){
                 res.send(err);
             }
@@ -124,7 +125,7 @@ router.delete('/beverages/:id',AuthUser, (req, res) => {
    
 }); 
 
-//function to get image from apkapi
+//function to get image from apk api
 router.get('/apkbeverages/:id', (req, res) => {    
     Scrape(req.params.id).then(imgurl => {                
         console.log(imgurl);
@@ -142,6 +143,7 @@ router.put('/beverage/:id', AuthUser,(req,res) =>{// AuthUser to make sure it is
     });
 })
 
+//call to get all users so admins can delete if wanted
 router.get('/getusers', (req, res, next) =>{
     Users.find((err, response) => {
         if(err){
@@ -151,6 +153,7 @@ router.get('/getusers', (req, res, next) =>{
     });
 });
 
+//call to delete user with specific _id from db
 router.delete('/deluser/:id',AuthUser, (req, res) => {
     try{       
         Users.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, response){
@@ -159,7 +162,7 @@ router.delete('/deluser/:id',AuthUser, (req, res) => {
             }
             res.send(response);
         });
-    }catch (err){ 
+    }catch (err){
         console.log(err);
     }
    

@@ -2,7 +2,7 @@
     <div class="col-xl-12" align="center" >
         <h2>Favorit</h2>
         <h3>{{ this.mostdrunk.name }}</h3>
-        <img src="{{ this.mostdrunk.img }}" class="image"/>      
+        <img src="{{ this.mostdrunk.img }}" class="favoriteimg"/>      
         
     </div>
 </div>
@@ -36,9 +36,9 @@
                             <td>
                                 <h4>{{ beverage.name }}</h4>   
                                 <div>
-                                    <img *ngFor='let in of counter(beverage.score) ;let i = index'  src="/assets/img/star.png" style="width: 20px;" />                            
-                                    <img *ngFor='let in of counter(5 - beverage.score) ;let i = index'  src="/assets/img/darkstar.png" style="width: 20px;" />
-                                    <div id="{{ beverage.name }}" style="display: none;">
+                                    <img *ngFor='let in of counter(beverage.score) ;let i = index'  src="/assets/img/star.png" class="staricon" />                            
+                                    <img *ngFor='let in of counter(5 - beverage.score) ;let i = index'  src="/assets/img/darkstar.png" class="staricon" />
+                                    <div id="{{ beverage.name }}" class="hide">
                                         <input value='{{ beverage.score }}' type='range' min='1' max='5' class="custom-range" id="score{{ beverage._id }}"/>                                                                        
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                             <td>
                                 <div>
                                     <button id="{{ beverage._id }}" (click)='showUpdateform(beverage)' type="button" class="btn btn-warning">Ändra information</button>
-                                    <input id="{{ beverage.id }}" type='submit' (click)='Updateform(beverage, beverage.score)' class="btn btn-danger" style="display: none;" value="You're about to update some information">
+                                    <input id="{{ beverage.id }}" type='submit' (click)='Updateform(beverage, beverage.score)' class="btn btn-danger hide" value="Du håller på att ändra värden">
                                     <button class="rmbutton" (click)='removeBeverage(beverage)'><img class="rmimg" src="assets/img/remove.png"/></button>
                                 </div>
                             </td>

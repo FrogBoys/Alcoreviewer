@@ -27,9 +27,9 @@
                             <td>
                                 <h4>{{ beverage.name }}</h4>   
                                 <div>
-                                    <img *ngFor='let in of counter(beverage.score) ;let i = index'  src="/assets/img/star.png" style="width: 20px;" />                            
-                                    <img *ngFor='let in of counter(5 - beverage.score) ;let i = index'  src="/assets/img/darkstar.png" style="width: 20px;" />
-                                    <div id="{{ beverage.name }}" style="display: none;">
+                                    <img *ngFor='let in of counter(beverage.score) ;let i = index'  src="/assets/img/star.png" class='staricon' />                            
+                                    <img *ngFor='let in of counter(5 - beverage.score) ;let i = index'  src="/assets/img/darkstar.png" class='staricon' />
+                                    <div id="{{ beverage.name }}" class='hide'>
                                         <input value='{{ beverage.score }}' type='range' min='1' max='5' class="custom-range" id="score{{ beverage._id }}"/>                                                                        
                                     </div>
                                 </div>

@@ -23,7 +23,7 @@ export class BeveragesComponent implements OnInit{
 
   constructor(private Service:BackendService, private app: AppComponent){   
     this.Service.loggedIn.subscribe(response =>{//call to get loggedIn
-      this.loggedIn = response;
+      this.loggedIn = response;//loggedIn set as response
     });
   }   
 
