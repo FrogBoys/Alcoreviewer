@@ -4,7 +4,6 @@ const bodyparser = require("body-parser");
 const api = require('./src/routes/api');
 const login = require('./src/routes/login');
 const session = require('express-session');
-//const validator = require('express-validator');
 const cookieParse = require('cookie-parser');
 //body parser
 const app = express();
@@ -17,11 +16,11 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));//static folder
 
-app.use(session({
+app.use(session({//session
     secret: 'Keybaord cat',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge:  100000 },
+    cookie: { maxAge:  1000000 },
 }));
 //routes
 app.use('/api', api);

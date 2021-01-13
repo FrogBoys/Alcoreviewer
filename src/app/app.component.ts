@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   loggedIn: boolean;
   headertxt;
   secondroutertxt;
+
   constructor(private bevService: BackendService){
     this.loginForm = new FormGroup({
       uname:  new FormControl(),
@@ -27,15 +28,15 @@ export class AppComponent implements OnInit {
     this.getlogin();
   }
 
-  login(value){
+  login(value){//log in method that sets various visual and fucntion properties such as what says what and of the login and signup inputs is hidden/shown
     this.bevService.loginUser(value).subscribe(response =>{
       this.username = response['username'];
-      this.user = response;
+      this.user = response; //sets user from response
       this.loginforms = false;
       this.logoutbtn = true;      
       this.loggedIn = true;
       this.bevService.loggedIn.next(true);
-      if(response['usertype'] == 'admin'){
+      if(response['usertype'] == 'admin'){//sets what is shown to the two different users
         this.secondroutertxt = 'Administrera';
       }
       else{
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  logout(){
+  logout(){//logout function which hides and removes appropriate elements
     this.bevService.logout();
     this.bevService.loggedIn.subscribe(response => { 
       this.loggedIn = response;
@@ -86,7 +87,7 @@ export class AppComponent implements OnInit {
       this.headertxt =  'Picture brought to you by curtesy of NASA'
       if(response.hdurl === undefined && response.media_type != 'video'){this.headerimg = response.url;}//this part makes sure that an imgae exist even if the api returns a video
       else if(response.media_type === 'video'){
-        this.headerimg = 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fd3ao8sz5crj5i0.cloudfront.net%2F005_hubble-crab-nebula.jpg&f=1&nofb=1';
+        this.headerimg = '../src/assets/img/hubblepicture.jpg'; //incase of video or other a standar replacement image is shown
         this.headertxt = 'Due NASA providing a video this is the picture you get' //fun way to tell the user that the NASA api dint' return a picture
       }
     });

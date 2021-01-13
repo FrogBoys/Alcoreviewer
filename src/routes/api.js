@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.net/Alcoholrevdb?retryWrites=true&w=majority',{ useUnifiedTopology: true, useNewUrlParser: true });
 db = mongoose.connection;
 const pupeteer = require('puppeteer');
-const Beverage = require('../app/models/Beverage.js')
-const Users = require('../app/models/User.js')
+const Beverage = require('../app/models/Beverage.js');//Beverage model which is used to connect to db
+const Users = require('../app/models/User.js');//User model which is used to connect to db
 
 db.on('error', console.error.bind(console, 'connection error:'));
  
@@ -13,7 +13,7 @@ db.once('open', function() {
   console.log("Connected to DB");
 }); 
 
-const AuthUser = (req, res, next) => {
+const AuthUser = (req, res, next) => {// authenticate user method to make sure the user is logged in
     if(req.session && req.session.user) {
       next();
     } else {

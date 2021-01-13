@@ -1,5 +1,5 @@
 <div class="row" *ngIf='usermode'>
-    <div class="col-xl-12" align="center">
+    <div class="col-xl-12" align="center" >
         <h2>Favorit</h2>
         <h3>{{ this.mostdrunk.name }}</h3>
         <img src="{{ this.mostdrunk.img }}" class="image"/>      
@@ -60,9 +60,9 @@
                             </td>                   
                             <td>
                                 <div>
-                                    <button id="{{ beverage._id }}" (click)='showUpdateform(beverage)' type="button" class="btn btn-warning">Change information</button>
+                                    <button id="{{ beverage._id }}" (click)='showUpdateform(beverage)' type="button" class="btn btn-warning">Ändra information</button>
                                     <input id="{{ beverage.id }}" type='submit' (click)='Updateform(beverage, beverage.score)' class="btn btn-danger" style="display: none;" value="You're about to update some information">
-                                    <button class="rmbutton" (click)='removeBeverage(beverage)'><img class="rmimg" src="assets/img/remove.png"/></button>                        
+                                    <button class="rmbutton" (click)='removeBeverage(beverage)'><img class="rmimg" src="assets/img/remove.png"/></button>
                                 </div>
                             </td>
                         </tr>

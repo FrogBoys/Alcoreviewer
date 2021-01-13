@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormControlName, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { BackendService } from 'src/app/services/backend.service';
 import { MyBeveragesComponent } from '../my-beverages/my-beverages.component';
 
@@ -16,59 +16,53 @@ export class AdminToolsComponent implements OnInit {
   userform: FormControl;
   username: FormControl;
   beveragename: FormControl;
-  valpassword: FormControl;
-  password: FormControl;
-  usertype: FormControl;
 
   constructor(private Service: BackendService, private mybeverages: MyBeveragesComponent) { }
 
   removeUser(data){
-    if(confirm(`Är du säker på att du vill ta bort ${data[2]}?`)){
-      this.Service.removeUser(data).subscribe(response =>{});
+    if(confirm(`Är du säker på att du vill ta bort ${data[2]}?`)){//confirmation box opened to make sure the user want to perform this action
+      this.Service.removeUser(data).subscribe(response =>{});//call service to remove user
     }
   }
 
   addUser(data){
-    if(confirm('Är du säker på att du vill lägga till en användare?')){
-      if(data.password == data.valpassword){        
-        this.Service.signUpUser(data).subscribe(response=>{
+    if(confirm('Är du säker på att du vill lägga till en användare?')){//confirmation box opened to make sure the user want to perform this action
+      if(data.password == data.valpassword){//
+        this.Service.signUpUser(data).subscribe(response=>{//call to service to add user
     
         });    
       }
       else{
-        alert('Icke matchande lösenord')
+        alert('Icke matchande lösenord');//simple call to tell the admin that the passwords doesn't match
       }
     }
   }
 
   removeBeverage(data){
-    if(confirm(`Är du säker på att du vill ta bort drycker med termen ${data} i smak kategorin?`)){
-      let beverages = this.mybeverages.beverages.filter(x => x.taste == data);
+    if(confirm(`Är du säker på att du vill ta bort drycker med termen ${data} i smak kategorin?`)){//confirmation box opened to make sure the user want to perform this action
+      let beverages = this.mybeverages.beverages.filter(x => x.taste == data);//gets every beverage that has "data" as their "taste" this is to remove malicious users
       beverages.forEach(element => {
-        this.Service.removeData(element._id).subscribe(response =>{
-          this.mybeverages.beverages.splice(element);
+        this.Service.removeData(element._id).subscribe(response =>{// beverages is removed from db
+          this.mybeverages.beverages.splice(element);//beverages is removed from local list
         });        
       });
     }
   }
 
   ngOnInit(): void {
-    this.Service.getUsers().subscribe(response =>{
-      this.userlist = response;
+    this.Service.getUsers().subscribe(response =>{//call to get all users
+      this.userlist = response;//populates datalist with users that the admin may remove
     });
     this.userform =  new FormControl;
     this.username = new FormControl;
-    this.password = new FormControl;
-    this.valpassword = new FormControl;
     this.beveragename = new FormControl;
-    this.usertype = new FormControl;
     this.adminForm = new FormGroup({   
       userform: this.userform,
       beveragename: this.beveragename,   
-      addusername: new FormControl,
-      setpassword: new FormControl,
-      validatepassword: new FormControl,
-      usertype: this.usertype,
+      username: new FormControl,
+      password: new FormControl,
+      valpassword: new FormControl,
+      usertype: new FormControl,
     });
   }
 

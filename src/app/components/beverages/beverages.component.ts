@@ -22,38 +22,20 @@ export class BeveragesComponent implements OnInit{
   loggedIn;
 
   constructor(private Service:BackendService, private app: AppComponent){   
-    this.Service.loggedIn.subscribe(response =>{
-      this.loggedIn = response; 
-      this.app.loggedIn = response;
-      this.app.loginforms = !response;
-      this.app.logoutbtn = response;
-      if(response == false){
-        this.app.user = undefined;
-      }
+    this.Service.loggedIn.subscribe(response =>{//call to get loggedIn
+      this.loggedIn = response;
     });
   }   
 
-  refresh(){
-    this.beverages = new Array<any>();
-    document.location.reload();
-    this.Service.getData().subscribe(data =>{         
-      this.filter = this.filterdata;
-      this.beverages = data;  
-      this.beverages = this.Service.dataset;  
-    }, err =>{
-      console.log(err);
-    });
-  }
-
   ngOnInit(): void {
-    this.updateForm = new FormGroup({           
+    this.updateForm = new FormGroup({//formgroup initializing
       score: new FormControl,      
     });   
 
-    this.Service.getData().subscribe(data =>{         
-      this.filter = this.filterdata;
+    this.Service.getData().subscribe(data =>{//call to get all beverages
+      this.filter = this.filterdata;//setting what the filter will be using to filter
       this.beverages = data;
-    }, err =>{
+    }, err =>{//error handling
       console.log(err);
     });   
     this.app.getlogin();
