@@ -14,7 +14,7 @@ const port =  process.env.PORT || 8080;//port
 //View engine
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
-app.use(express.static(path.join(__dirname, 'public')));//static folder
+app.use(express.static('./dist/AlcoRev'));//static folder
 
 app.use(session({//session
     secret: 'Keybaord cat',
@@ -27,7 +27,7 @@ app.use('/api', api);
 app.use('/login', login);
 //redirecting to index
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, './src', '/index.html'));
+    res.sendFile(path.join(__dirname, './dist/AlcoRev', '/index.html'));
 });
 
 app.use(cookieParse());
