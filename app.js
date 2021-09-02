@@ -5,10 +5,14 @@ const api = require('./src/routes/api');
 const login = require('./src/routes/login');
 const session = require('express-session');
 const cookieParse = require('cookie-parser');
-//body parser
+//body parser 
 let Queue = require('bull');
 
 const app = express();
+
+const server = app.listen();
+server.setTimeout(600000);
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded( { extended: true } ));
 const port =  process.env.PORT || 8080;//port
