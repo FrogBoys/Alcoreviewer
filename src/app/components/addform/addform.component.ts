@@ -19,6 +19,7 @@ export class AddformComponent implements OnInit{
   beveragelist: any []; //list of beverages
   bev: Beverage;
   imageurl: any; 
+  dsplimg: boolean; 
   loggedIn; //boolean to check if the user is logged in
   username: string;
   userid: string;
@@ -73,7 +74,9 @@ export class AddformComponent implements OnInit{
   setimageURL(value){// method that sets image in addform for easier understanding of datalist
     var id = value.apk.split(',');
     this.spinner2 = true;//visual spinner2 is shown
+    this.dsplimg = false;
     this.Service.getsingularData(id[2]).subscribe(response =>{
+      this.dsplimg = true;
       this.imageurl = response; //imageurl is set from getsingularData response
       this.spinner2 = false;//visual spinner2 is hidden
     });

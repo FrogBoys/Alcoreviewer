@@ -37,10 +37,10 @@ export class AppComponent implements OnInit {
       this.loggedIn = true;
       this.Service.loggedIn.next(true);//sets what the loggedIn should be
       if(response['usertype'] == 'admin'){//sets what is shown to the two different users
-        this.secondroutertxt = 'Administrera';
+        this.secondroutertxt = 'Administrate';
       }
       else{
-        this.secondroutertxt = 'Mina drycker'
+        this.secondroutertxt = 'My beverages'
       }
     });
   }
@@ -68,10 +68,10 @@ export class AppComponent implements OnInit {
           this.user = resp; //user is set from response
           this.username = resp['username'];
           if(resp['usertype'] == 'admin'){//sets what is shown to the two different users
-            this.secondroutertxt = 'Administrera';
+            this.secondroutertxt = 'Administrate';
           }
           else{
-            this.secondroutertxt = 'Mina drycker'
+            this.secondroutertxt = 'My beverages'
           }          
         });
       }

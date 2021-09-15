@@ -34,7 +34,7 @@ export class BeveragesComponent implements OnInit{
 
     this.Service.getData().subscribe(data =>{//call to get all beverages
       this.filter = this.filterdata;//setting what the filter will be using to filter
-      this.beverages = data;
+      this.beverages = data.reverse();
     }, err =>{//error handling
       console.log(err);
     });   

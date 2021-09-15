@@ -1,6 +1,6 @@
 <div class="row" *ngIf='usermode'>
     <div class="col-xl-12" align="center" >
-        <h2>Favorit</h2>
+        <h2>Favorite</h2>
         <h3>{{ this.mostdrunk.name }}</h3>
         <img src="{{ this.mostdrunk.img }}" class="favoriteimg"/>      
         
@@ -11,7 +11,7 @@
 <div class="container">
     <form class="col-xl-12">
         <div class="form-group">
-            <input type="text" class="form-control" list="bevlist" placeholder="Sök på drycker" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">            
+            <input type="text" class="form-control" list="bevlist" placeholder="Search beverages" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">            
         </div>
     </form>          
     <div class="row">
@@ -20,12 +20,12 @@
                 <thead class="thead-light">
                     <tr>
                         <td></td>
-                        <td>Namn</td>
-                        <td *ngIf='adminmode'>Användare</td>
+                        <td>Name</td>
+                        <td *ngIf='adminmode'>User</td>
                         <td>Sort</td>
-                        <td>Procent</td>
-                        <td>Smak</td>
-                        <td>Pris</td>
+                        <td>Procentage</td>
+                        <td>Taste</td>
+                        <td>Price</td>
                     </tr>
                 </thead>
                 <tbody>                                                    

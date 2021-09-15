@@ -1,7 +1,7 @@
 <br />
 <div id='addforms' class="container" *ngIf='loggedIn' >
         <br />
-        <button type="button" class="btn btn-info" data-target='#addform' data-toggle='collapse' (click)="isCollapsed = !isCollapsed">Lägg till</button> 
+        <button type="button" class="btn btn-info" data-target='#addform' data-toggle='collapse' (click)="isCollapsed = !isCollapsed">Add</button> 
         <br />
         <div class="spinner-border text-success" id="spinner" *ngIf='spinner1'></div>         
         <div  id="addform" class="collapse" [ngbCollapse]='isCollapsed'>        
@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="col-lg-1">
                                     <div class="spinner-border text-dark" id="spinner2" *ngIf='spinner2'></div>
-                                    <img class='addimage' src='{{ imageurl }}' /> 
+                                    <img class='addimage' id="dsplimg" *ngIf='dsplimg' src='{{ imageurl }}' /> 
                                 </div>
                                 <div class="col-lg-3">
                                     <input type="number" class="form-control" placeholder="points" max="5" min="1" formControlName='score' required/>

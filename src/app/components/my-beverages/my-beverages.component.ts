@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
 import { FilterPipe } from 'src/app/filter.pipe';
 import { BackendService } from 'src/app/services/backend.service';
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-my-beverages',
@@ -25,41 +26,45 @@ export class MyBeveragesComponent implements OnInit {
   mostdrunk;
   usermode;
 
-  constructor(private Service:BackendService, private app: AppComponent){  }   
+  constructor(private Service:BackendService, private app: AppComponent, private router: Router){  }   
 
   ngOnInit(): void {
     this.updateForm = new FormGroup({           
       score: new FormControl,      
-    });   
-    if(this.app.user['usertype'] == 'admin'){//this determines if admintools are seen
-      this.Service.getData().subscribe(data =>{//this gets all the beverages in the db 
-      this.filter = this.filterdata;//sets what the filter will be filtering
-      this.beverages = data;//sets the local list presented
-      this.adminmode = true;//this shows the Admin-Tools Ccomponent
-      },err =>{//error handling
-        console.log(err);
-      });         
-    }
+    });
+    
+    if(this.app.user == undefined){this.router.navigate(['/beverages']); alert('Your session has expired')}
     else{
-      this.userid = this.app.user['_id'];
-      this.Service.getmyData(this.userid).subscribe(data =>{// this gets only the specific users beverages in the db
+      if(this.app.user['usertype'] == 'admin'){//this determines if admintools are seen
+        this.Service.getData().subscribe(data =>{//this gets all the beverages in the db 
         this.filter = this.filterdata;//sets what the filter will be filtering
-        this.beverages = data;;//sets the local list presented
-        if(data.length != 0){//if the users beverages are less than 1 a most drunk visual indicator is hidden 
-          this.usermode = true;//visual indicator is shown
-          let max = 0;
-          data.forEach(element => {//foreach loop that calculates which drink has been entered the most
-            if(element.timesdrunk > max){
-              max = element.timesdrunk;
-              this.mostdrunk = element;
-            }
-          });
-        }
-        
-        
-      }, err =>{//error handling
-      console.log(err);
-      });         
+        this.beverages = data.reverse();//sets the local list presented
+        this.adminmode = true;//this shows the Admin-Tools Ccomponent
+        },err =>{//error handling
+          console.log(err);
+        });         
+      }
+      else{
+        this.userid = this.app.user['_id'];
+        this.Service.getmyData(this.userid).subscribe(data =>{// this gets only the specific users beverages in the db
+          this.filter = this.filterdata;//sets what the filter will be filtering
+          this.beverages = data;;//sets the local list presented
+          if(data.length != 0){//if the users beverages are less than 1 a most drunk visual indicator is hidden 
+            this.usermode = true;//visual indicator is shown
+            let max = 0;
+            data.forEach(element => {//foreach loop that calculates which drink has been entered the most
+              if(element.timesdrunk > max){
+                max = element.timesdrunk;
+                this.mostdrunk = element;
+              }
+            });
+          }
+          
+          
+        }, err =>{//error handling
+        console.log(err);
+        });         
+      }
     }
 
   }

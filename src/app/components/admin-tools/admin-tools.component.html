@@ -1,35 +1,35 @@
 <br />
 <div class="container">
     <br />
-    <button type="button" class="btn btn-danger"  data-toggle='collapse' (click)="isCollapsed = !isCollapsed">Avancerade admin verktyg</button> 
+    <button type="button" class="btn btn-danger"  data-toggle='collapse' (click)="isCollapsed = !isCollapsed">Advanced admin tools</button> 
     <div class="collapse" [ngbCollapse]='isCollapsed'>
         <form class="col-xl-12" [formGroup]='adminForm'>
             <div class="form-group">
                 <br />
-                <label>Ta bort drycker med termen 'EXEMPEL'</label>
-                <input type="text" class="form-control" placeholder="Ta bort drycker med termen" formControlName='beveragename'>  
+                <label>Remove beverages containing the term 'EXEMPEL'</label>
+                <input type="text" class="form-control" placeholder="Remove beverages with the term" formControlName='beveragename'>  
                 <input type='button' class="btn btn-danger" (click)='removeBeverage(this.beveragename.value)' value="Ta bort dryck"/>
                 
             </div>
-            <label for="userlistinput">Ta bort användare</label>
-            <input id="userlistinput" list="UserList" placeholder="Sök på användare" class="form-control pull-right" formControlName='userform'>                        
+            <label for="userlistinput">Remove user</label>
+            <input id="userlistinput" list="UserList" placeholder="Search users" class="form-control pull-right" formControlName='userform'>                        
             <datalist id="UserList"  placeholder="name" >
                 <option *ngFor='let user of userlist' [value]='user'>{{ user.username }} {{ user.usertype }}</option>
             </datalist>
-            <input type='button' class="btn btn-danger" (click)='removeUser(this.userform.value)' value="Ta bort användare"/>
+            <input type='button' class="btn btn-danger" (click)='removeUser(this.userform.value)' value="Remove user"/>
             <br />
             <br />
-            <button type="button" class="btn btn-warning"  data-toggle='collapse' (click)="isCollapsedAddUser = !isCollapsedAddUser">Lägg till användare</button> 
+            <button type="button" class="btn btn-warning"  data-toggle='collapse' (click)="isCollapsedAddUser = !isCollapsedAddUser">Add user</button> 
             <br />
             <div class="collapse" [ngbCollapse]='isCollapsedAddUser'>
-                <input type="text" class="form-control" placeholder="Användarnamn" formControlName='username'>    
+                <input type="text" class="form-control" placeholder="User name" formControlName='username'>    
                 <br />        
-                <input type="text" class="form-control" placeholder="Lösenord" formControlName='password'>            
+                <input type="text" class="form-control" placeholder="Password" formControlName='password'>            
                 <br />
-                <input type="text" class="form-control" placeholder="Validera lösenord" formControlName='valpassword'>            
+                <input type="text" class="form-control" placeholder="Validate Password" formControlName='valpassword'>            
                 <br />
-                <input type="text" class="form-control" placeholder="Användar typ" formControlName='usertype'>
-                <input type='button' class="btn btn-success" (click)='addUser(this.adminForm.value)' value="Bekräfta"/>
+                <input type="text" class="form-control" placeholder="User type" formControlName='usertype'>
+                <input type='button' class="btn btn-success" (click)='addUser(this.adminForm.value)' value="Confirm"/>
             </div>            
         </form>  
     </div>

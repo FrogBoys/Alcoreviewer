@@ -24,19 +24,23 @@ const AuthUser = (req, res, next) => {// authenticate user method to make sure t
 };
 
 //fucntion to scrape systembolaget after a specific image
-async function Scrape(id){       
-    const browser =  await pupeteer.launch();//starts a chromium browser      
+async function Scrape(id){      
+    const browser = await pupeteer.launch();//starts a chromium browser       
     try{
         const page = await browser.newPage();//opens a pgae
         await page.goto('https://www.systembolaget.se/' + id);// goes to systembolaget with the specified beverage id
-        const [el] = await page.$x('/html/body/div[5]/main/div[3]/div[1]/div/div[2]/div[1]/button/img');//gets the specific elemetn on the page 
-        const src = await el.getProperty('src');// gets the img src
+        await page.click("button.css-qw0trq");
+        await page.waitFor(100);
+        await page.click('button.css-1sa6t7h.epc1dj70');        
+        //await page.waitFor(1000);
+        const [el] = await page.$x('/html/body/div[1]/div[2]/main/div[1]/div/div[2]/div[1]/button/div/img');//gets the specific elemetn on the page 
+        const src = await el.getProperty('src');// gets the img src 
         const scrTxT = await src.jsonValue();//gets the jsonvalue 
         browser.close();//closes the browser
         return scrTxT;//returns img src
     }catch{//incase the url or img iws depricated there is a catch where no-img img is shown instead
         browser.close();        
-        return '../assets/img/no-img.png';//standard no-img in assets img folder
+        return '../assets/img/no-img.png';//standard no-img in assets img folder 
     }
 
 }
@@ -100,12 +104,13 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
     }
     else if(newbeverage.img == null || newbeverage.img == undefined){
         Scrape(data.id).then(imgurl => {
-            newbeverage.img = imgurl;//this stores the scpared image as thge img object
+            newbeverage.img = imgurl;//this stores the scpared image as the img object
             newbeverage.save();//saves to db
         }).catch(console.log('loading'));    
     }
     else{// if the img is already set the scrape method is skipped to optimize performance
         newbeverage.save();
+        console.log(newbeverage);
     }
       
 });
