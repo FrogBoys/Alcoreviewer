@@ -28,9 +28,16 @@ async function Scrape(id){
     const browser = await pupeteer.launch();//starts a chromium browser       
     try{
         const page = await browser.newPage();//opens a pgae
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+        if(req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
+        req.abort();
+        }
+        else {
+        req.continue();
+        }});
         await page.goto('https://www.systembolaget.se/' + id);// goes to systembolaget with the specified beverage id
         await page.click("button.css-qw0trq");
-        await page.waitFor(100);
         await page.click('button.css-1sa6t7h.epc1dj70');        
         //await page.waitFor(1000);
         const [el] = await page.$x('/html/body/div[1]/div[2]/main/div[1]/div/div[2]/div[1]/button/div/img');//gets the specific elemetn on the page 
