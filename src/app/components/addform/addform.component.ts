@@ -66,7 +66,7 @@ export class AddformComponent implements OnInit{
         timesdrunk: times,
       };
       this.Service.addData(this.bev);//Call to the service to add the beverage from nodejs
-      this.mybeverages.beverages.push(this.bev);// the list beverages in the my.beverages component adds the object bev      
+      this.mybeverages.beverages.unshift(this.bev);// the list beverages in the my.beverages component adds the object bev      
     }
     this.spinner1 = false;//visual spinner1 is hidden
   }

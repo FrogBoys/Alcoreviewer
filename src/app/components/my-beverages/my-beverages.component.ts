@@ -48,7 +48,7 @@ export class MyBeveragesComponent implements OnInit {
         this.userid = this.app.user['_id'];
         this.Service.getmyData(this.userid).subscribe(data =>{// this gets only the specific users beverages in the db
           this.filter = this.filterdata;//sets what the filter will be filtering
-          this.beverages = data;;//sets the local list presented
+          this.beverages = data.reverse();//sets the local list presented
           if(data.length != 0){//if the users beverages are less than 1 a most drunk visual indicator is hidden 
             this.usermode = true;//visual indicator is shown
             let max = 0;

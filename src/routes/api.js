@@ -128,7 +128,6 @@ router.post('/beverages/add', AuthUser, (req, res, next) => {
     }
     else{// if the img is already set the scrape method is skipped to optimize performance
         newbeverage.save();
-        console.log(newbeverage);
     }
       
 });

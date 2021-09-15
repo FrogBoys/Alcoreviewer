@@ -12,7 +12,7 @@ import { AppComponent } from 'src/app/app.component';
   providers: [BackendService]
 })
 export class BeveragesComponent implements OnInit{
-  beverages: any []; 
+  beverages = [].reverse(); 
   bev:any [];
   star: any ;
   search: any[];
