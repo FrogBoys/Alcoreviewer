@@ -23,9 +23,20 @@ const AuthUser = (req, res, next) => {// authenticate user method to make sure t
     }
 };
 
+const scrapeOptions = {
+    headless: true,
+    defaultViewport: null,
+    args: [
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+    ],
+};
+
 //fucntion to scrape systembolaget after a specific image
 async function Scrape(id){      
-    const browser = await pupeteer.launch();//starts a chromium browser       
+    const browser = await pupeteer.launch(scrapeOptions);//starts a chromium browser       
     try{
         const page = await browser.newPage();//opens a pgae
         await page.setRequestInterception(true);
