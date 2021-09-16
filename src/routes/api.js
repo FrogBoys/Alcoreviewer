@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://dbAdmin:3dwQ1fU4b0APtt9C@cluster0.buuqu.mongodb.net/Alcoholrevdb?retryWrites=true&w=majority',{ useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(process.env.ATLAS_URI,{ useUnifiedTopology: true, useNewUrlParser: true });
 db = mongoose.connection;
 const pupeteer = require('puppeteer');
 const Beverage = require('../app/models/Beverage.js');//Beverage model which is used to connect to db
